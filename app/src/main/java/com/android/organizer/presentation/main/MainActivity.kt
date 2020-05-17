@@ -5,18 +5,12 @@ import android.widget.Toast
 import com.android.organizer.R
 import com.android.organizer.presentation.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 
-class MainActivity : BaseActivity(), MainContract.View {
-
-    @Inject
-    lateinit var presenter: MainContract.Presenter
+class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        presenter.attachView(this) // TODO Move to a BaseActivity
 
         initViews()
     }

@@ -4,7 +4,7 @@ interface BaseContract {
 
     interface View
 
-    interface Presenter<in T> {
-        fun attachView(view: T)
+    interface Presenter {
+        fun attachView(view: View)
     }
 }

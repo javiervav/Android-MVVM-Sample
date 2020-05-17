@@ -13,7 +13,7 @@ interface MainContract {
         fun showProfileScreen()
     }
 
-    interface Presenter : BaseContract.Presenter<View> {
+    interface Presenter : BaseContract.Presenter {
         fun onBottomNavigationClicked(menuItem: MenuItem): Boolean
     }
 }

@@ -2,14 +2,9 @@ package com.android.organizer.presentation.main
 
 import android.view.MenuItem
 import com.android.organizer.R
+import com.android.organizer.presentation.BasePresenter
 
-class MainPresenter : MainContract.Presenter {
-
-    lateinit var view: MainContract.View // TODO: Move to a BasePresenter
-
-    override fun attachView(view: MainContract.View) { // TODO: Move to a BasePresenter
-        this.view = view
-    }
+class MainPresenter : BasePresenter<MainContract.View>(), MainContract.Presenter {
 
     override fun onBottomNavigationClicked(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
