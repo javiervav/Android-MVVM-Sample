@@ -38,7 +38,9 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View {
     }
 
     private fun initViews() {
-        mainBottomNavigationView.setOnNavigationItemSelectedListener { item ->
+        val number = 5.5555
+        val otherNumber = number + 6.77777
+        mainBottomNavigationView.setOnNavigationItemSelectedListener { item -> // A VERY LONG COMMENT TO TEST DETEKT LAKSDJLA SKDFJAS LDFK ASLDFKJA SLDKFA JSLDFKA SJLDFKAJ SLDFKA JSLDF 
             presenter.onBottomNavigationClicked(item)
         }
     }
