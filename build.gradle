@@ -12,13 +12,14 @@ buildscript {
             'gradle': '3.6.3',
             'detekt': '1.9.1',
             'kotlin': '1.3.72',
-            'core_ktx': '1.2.0',
+            'core_ktx': '1.3.0',
             'constraintlayout': '1.1.3',
-            'material': '1.2.0-alpha06',
+            'material': '1.2.0-beta01',
             'dagger': '2.27',
             'junit': '4.13',
             'test_junit': '1.1.1',
-            'espresso_core': '3.2.0'
+            'espresso_core': '3.2.0',
+            'navigation': '2.3.0-beta01'
     ]
 
     repositories {
