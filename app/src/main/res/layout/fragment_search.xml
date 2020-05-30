@@ -1,12 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/default_horizontal_margin"
+    android:paddingTop="@dimen/default_vertical_margin">
+
+    <ImageView
+        android:id="@+id/searchImage"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:background="@drawable/background_circle_primary_color_bright"
+        android:padding="20dp"
+        android:src="@drawable/ic_search"
+        android:tint="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/searchTitle"
+        style="@style/TextTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_vertical_margin"
+        android:text="@string/search_select_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchImage" />
+
+    <TextView
+        android:id="@+id/searchSelectMusic"
+        style="@style/TextMedium"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/medium_button_height"
+        android:layout_marginTop="@dimen/default_vertical_margin"
+        android:background="@drawable/background_search_buttons"
         android:gravity="center"
-        android:text="SEARCH" />
+        android:text="@string/search_select_books"
+        app:layout_constraintBottom_toTopOf="@+id/searchSelectBooks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchTitle"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/searchSelectBooks"
+        style="@style/TextMedium"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/medium_button_height"
+        android:layout_marginTop="@dimen/double_vertical_margin"
+        android:background="@drawable/background_search_buttons"
+        android:gravity="center"
+        android:text="@string/search_select_music"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchSelectMusic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
