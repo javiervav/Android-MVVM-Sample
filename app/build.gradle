@@ -32,6 +32,10 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
     implementation "com.google.android.material:material:${versions.material}"
 
+    // Jetpack navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$versions.navigation"
+
     // Dagger 2
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
