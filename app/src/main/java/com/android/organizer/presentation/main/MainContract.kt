@@ -4,9 +4,7 @@ import com.android.organizer.presentation.BaseContract
 
 interface MainContract {
 
-    interface View : BaseContract.View {
-    }
+    interface View : BaseContract.View
 
-    interface Presenter : BaseContract.Presenter {
-    }
+    interface Presenter : BaseContract.Presenter
 }
