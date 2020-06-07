@@ -19,9 +19,13 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.android.organizer.presentation.search.SearchFragment"
+        android:name="com.android.organizer.presentation.search.SearchSelectFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_searchMusicFragment"
+            app:destination="@id/searchMusicFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/musicFragment"
@@ -34,5 +38,10 @@
         android:name="com.android.organizer.presentation.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/searchMusicFragment"
+        android:name="com.android.organizer.presentation.search.SearchMusicFragment"
+        android:label="SearchMusicFragment"
+        tools:layout="@layout/fragment_search_music" />
 
 </navigation>
