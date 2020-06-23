@@ -1,2 +1,4 @@
+include ':data'
+include ':domain'
 rootProject.name='Organizer'
 include ':app'

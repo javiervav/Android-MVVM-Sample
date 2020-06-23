@@ -40,7 +40,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/searchMusicFragment"
-        android:name="com.android.organizer.presentation.search.SearchMusicFragment"
+        android:name="com.android.organizer.presentation.search.music.SearchMusicFragment"
         android:label="SearchMusicFragment"
         tools:layout="@layout/fragment_search_music" />
 
