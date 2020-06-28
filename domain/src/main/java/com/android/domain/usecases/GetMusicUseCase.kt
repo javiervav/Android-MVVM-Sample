@@ -12,11 +12,11 @@ class GetMusicUseCase(
     private val authRepository: AuthRepositoryContract,
     private val musicRepository: MusicRepositoryContract
 ) {
-    fun execute(text: String, resultado: (MusicInfo) -> Unit) {
+    fun execute(text: String, callback: (MusicInfo) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             val result = run(text)
             withContext(Dispatchers.Main) {
-                resultado.invoke(result)
+                callback.invoke(result)
             }
         }
     }
