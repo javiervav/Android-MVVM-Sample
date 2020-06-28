@@ -1,5 +1,6 @@
 package com.android.organizer.di
 
+import com.android.domain.usecases.GetMusicUseCase
 import com.android.organizer.presentation.main.MainContract
 import com.android.organizer.presentation.main.MainPresenter
 import com.android.organizer.presentation.search.music.SearchMusicContract
@@ -17,5 +18,5 @@ class PresentersModule {
 
     @Singleton
     @Provides
-    fun provideSearchMusicPresenter(): SearchMusicContract.Presenter = SearchMusicPresenter()
+    fun provideSearchMusicPresenter(getMusicUseCase: GetMusicUseCase): SearchMusicContract.Presenter = SearchMusicPresenter(getMusicUseCase)
 }
