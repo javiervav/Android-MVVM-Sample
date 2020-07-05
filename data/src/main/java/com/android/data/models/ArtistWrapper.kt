@@ -3,16 +3,7 @@ package com.android.data.models
 import com.google.gson.annotations.SerializedName
 
 data class ArtistWrapper(
-    val artists: ArtistPagination
-)
-
-data class ArtistPagination(
-    val items: List<Artist>,
-    val limit: Short,
-    val offset: Short,
-    val total: Short,
-    val nextUrl: String?,
-    val previousUrl: String?
+    val artists: MusicPagination<Artist>
 )
 
 data class Artist(
@@ -39,14 +30,4 @@ data class Artist(
 
 data class Followers(
     val total: Int
-)
-
-data class Image(
-    val height: Short,
-    val width: Short,
-    val url: String
-)
-
-data class ExternalUrls(
-    val spotify: String
 )
