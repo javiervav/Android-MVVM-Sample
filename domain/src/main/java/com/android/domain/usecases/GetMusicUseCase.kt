@@ -23,8 +23,8 @@ class GetMusicUseCase(
 
     private fun run(text: String): MusicInfo {
         val accessToken = authRepository.getAccessToken() // TODO: Save accessToken in database and when api fails, call it again (Interceptor)
+        val artistList = musicRepository.getArtistList(accessToken!!, text) // TODO: Remove exclamation marks
         val albumList = musicRepository.getAlbumList(accessToken!!, text)
-        val artistList = musicRepository.getArtistList(accessToken, text)
         return MusicInfo(artistList, albumList)
     }
 }

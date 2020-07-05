@@ -1,6 +1,7 @@
 package com.android.data.di
 
-import com.android.data.remote.auth.AuthApi
+import com.android.data.remote.AuthApi
+import com.android.data.remote.MusicApi
 import com.android.data.repository.AuthRepository
 import com.android.data.repository.MusicRepository
 import com.android.domain.repositories.AuthRepositoryContract
@@ -17,15 +18,21 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun providesAuthRepository(): AuthRepositoryContract = AuthRepository(getRetrofitBuilder())
+    fun providesAuthRepository(): AuthRepositoryContract = AuthRepository(getRetrofitBuilderAuth())
 
     @Singleton
     @Provides
-    fun providesMusicRepository(): MusicRepositoryContract = MusicRepository()
+    fun providesMusicRepository(): MusicRepositoryContract = MusicRepository(getRetrofitBuilderMusic())
 
-    private fun getRetrofitBuilder() = Retrofit.Builder()
+    private fun getRetrofitBuilderAuth() = Retrofit.Builder()
         .baseUrl(AuthApi.getBaseUrl())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(AuthApi::class.java)
+
+    private fun getRetrofitBuilderMusic() = Retrofit.Builder()
+        .baseUrl(MusicApi.getBaseUrl())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(MusicApi::class.java)
 }

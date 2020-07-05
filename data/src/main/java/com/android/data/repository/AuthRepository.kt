@@ -1,6 +1,6 @@
 package com.android.data.repository
 
-import com.android.data.remote.auth.AuthApi
+import com.android.data.remote.AuthApi
 import com.android.domain.repositories.AuthRepositoryContract
 
 class AuthRepository(
