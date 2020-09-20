@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.organizer.R
@@ -20,6 +19,13 @@ class SearchSelectFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         searchSelectMusic.setOnClickListener { findNavController().navigate(R.id.action_searchFragment_to_searchMusicFragment) }
-        searchSelectBooks.setOnClickListener { Toast.makeText(activity, "Go to search books", Toast.LENGTH_SHORT).show() }
+        searchSelectBooks.setOnClickListener { openBottomSheet() }
+    }
+
+    private fun openBottomSheet() {
+        val bottomSheet = SearchBottomSheetDialogFragment.newInstance()
+        activity?.let {
+            bottomSheet.show(it.supportFragmentManager, "")
+        }
     }
 }

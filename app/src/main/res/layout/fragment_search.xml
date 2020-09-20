@@ -14,9 +14,9 @@
         android:background="@drawable/background_circle_primary_color_bright"
         android:padding="20dp"
         android:src="@drawable/ic_search"
-        android:tint="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/colorPrimaryDark"
         tools:ignore="ContentDescription" />
 
     <TextView
