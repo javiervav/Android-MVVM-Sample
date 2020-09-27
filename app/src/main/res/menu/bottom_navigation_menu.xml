@@ -10,7 +10,6 @@
         android:title="@string/bottom_menu_books" />
     <item
         android:id="@+id/searchFragment"
-        android:icon="@drawable/ic_search"
         android:title="@string/bottom_menu_search" />
     <item
         android:id="@+id/musicFragment"
