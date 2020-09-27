@@ -39,9 +39,8 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View {
         val bottomSheetBehavior = BottomSheetBehavior.from(mainBottomNavigationCenterButton);
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                Log.d("SlideOffset = ", slideOffset.toString())
                 val searchBottomSheetLayoutParams = searchBottomSheetLayout.layoutParams as LinearLayout.LayoutParams
-                searchBottomSheetLayoutParams.bottomMargin = (slideOffset * 149.toFloat().toPx).toInt()
+                searchBottomSheetLayoutParams.bottomMargin = (slideOffset * 174.toFloat().toPx).toInt()
                 searchBottomSheetLayout.layoutParams = searchBottomSheetLayoutParams
             }
 

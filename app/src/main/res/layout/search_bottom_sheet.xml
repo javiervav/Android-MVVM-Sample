@@ -4,7 +4,8 @@
     android:id="@+id/searchBottomSheetLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryBright">
+    android:background="@drawable/background_bottom_sheet_header"
+    android:paddingTop="25dp">
 
     <TextView
         android:id="@+id/bottomSheetOption1"
