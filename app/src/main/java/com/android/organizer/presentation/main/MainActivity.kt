@@ -28,7 +28,7 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View {
     private fun initViews() {
         setupBottomNavigationBarNavigation()
         setupSearchBottomSheet()
-        mainBottomNavigationCenterButton.setOnClickListener { onSearchButtonClick() }
+        mainBottomNavigationCenterButton.setOnClickListener { presenter.onSearchButtonClick() }
     }
 
     private fun setupBottomNavigationBarNavigation() {
@@ -41,19 +41,24 @@ class MainActivity : BaseActivity<MainContract.Presenter>(), MainContract.View {
         val bottomSheetBehavior = BottomSheetBehavior.from(mainBottomNavigationCenterButton);
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                moveBottomSheetUp(slideOffset)
+                presenter.onBottomSheetSlide(slideOffset)
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {}
         })
     }
 
-    private fun onSearchButtonClick() { // TODO MOVE TO PRESENTER
-        val newState = if (BottomSheetBehavior.from(mainBottomNavigationCenterButton).state == STATE_EXPANDED) STATE_COLLAPSED else STATE_EXPANDED
-        BottomSheetBehavior.from(mainBottomNavigationCenterButton).state = newState
+    override fun isBottomSheetExpanded() = BottomSheetBehavior.from(mainBottomNavigationCenterButton).state == STATE_EXPANDED
+
+    override fun expandBottomSheet() {
+        BottomSheetBehavior.from(mainBottomNavigationCenterButton).state = STATE_EXPANDED
     }
 
-    private fun moveBottomSheetUp(slideOffset: Float) {
+    override fun collapseBottomSheet() {
+        BottomSheetBehavior.from(mainBottomNavigationCenterButton).state = STATE_COLLAPSED
+    }
+
+    override fun moveBottomSheetVertically(slideOffset: Float) {
         val searchBottomSheetLayoutParams = searchBottomSheetLayout.layoutParams as LinearLayout.LayoutParams
         searchBottomSheetLayoutParams.bottomMargin = (slideOffset * 174.toFloat().toPx).toInt()
         searchBottomSheetLayout.layoutParams = searchBottomSheetLayoutParams
