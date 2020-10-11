@@ -1,6 +1,6 @@
 package com.android.organizer.di
 
-import com.android.organizer.presentation.search.music.SearchMusicFragment
+import com.android.organizer.presentation.search.SearchFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,5 +8,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentsModule {
 
     @ContributesAndroidInjector
-    abstract fun provideSearchMusicFragment(): SearchMusicFragment
+    abstract fun provideSearchMusicFragment(): SearchFragment
 }

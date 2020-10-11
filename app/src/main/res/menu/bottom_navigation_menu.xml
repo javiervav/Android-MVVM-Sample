@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_bookmark"
         android:title="@string/bottom_menu_books" />
     <item
-        android:id="@+id/searchFragment"
+        android:id="@+id/searchBottomSheetDialog"
         android:title="@string/bottom_menu_search" />
     <item
         android:id="@+id/musicFragment"

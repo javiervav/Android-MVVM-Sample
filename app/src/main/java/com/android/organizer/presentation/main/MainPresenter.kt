@@ -1,6 +1,7 @@
 package com.android.organizer.presentation.main
 
 import com.android.organizer.presentation.BasePresenter
+import com.android.organizer.presentation.search.SearchType
 
 class MainPresenter : BasePresenter<MainContract.View>(), MainContract.Presenter {
 
@@ -14,5 +15,13 @@ class MainPresenter : BasePresenter<MainContract.View>(), MainContract.Presenter
         } else {
             view.expandBottomSheet()
         }
+    }
+
+    override fun onSearchArtistClick() {
+        view.navigateToSearch(SearchType.ARTIST)
+    }
+
+    override fun onSearchAlbumClick() {
+        view.navigateToSearch(SearchType.ALBUM)
     }
 }

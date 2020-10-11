@@ -17,15 +17,20 @@
         android:label="BooksFragment"
         tools:layout="@layout/fragment_books" />
 
+    <!-- Action to navigate from search bottom sheet to search fragment -->
+    <action
+        android:id="@+id/actionGlobalSearchFragment"
+        app:destination="@id/searchFragment">
+        <argument
+            android:name="searchType"
+            app:argType="com.android.organizer.presentation.search.SearchType" />
+    </action>
+
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.android.organizer.presentation.search.SearchSelectFragment"
+        android:name="com.android.organizer.presentation.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_searchFragment_to_searchMusicFragment"
-            app:destination="@id/searchMusicFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/musicFragment"
@@ -38,10 +43,5 @@
         android:name="com.android.organizer.presentation.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
-    <fragment
-        android:id="@+id/searchMusicFragment"
-        android:name="com.android.organizer.presentation.search.music.SearchMusicFragment"
-        android:label="SearchMusicFragment"
-        tools:layout="@layout/fragment_search_music" />
 
 </navigation>
