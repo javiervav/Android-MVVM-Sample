@@ -8,5 +8,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentsModule {
 
     @ContributesAndroidInjector
-    abstract fun provideSearchMusicFragment(): SearchFragment
+    abstract fun provideSearchFragment(): SearchFragment
 }

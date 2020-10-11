@@ -23,13 +23,12 @@ abstract class BaseFragment<T : BaseContract.Presenter> : BaseContract.View, Fra
         AndroidSupportInjection.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        presenter.attachView(this)
-        return inflater.inflate(getLayoutResource(), container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(getLayoutResource(), container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.attachView(this)
+        presenter.onViewCreated()
     }
 }
