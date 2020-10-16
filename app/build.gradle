@@ -33,6 +33,7 @@ dependencies {
     implementation "androidx.core:core-ktx:${versions.core_ktx}"
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
     implementation "com.google.android.material:material:${versions.material}"
+    implementation "com.android.support:recyclerview-v7:${versions.recyclerview}"
 
     // Jetpack navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.navigation"

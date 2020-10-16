@@ -1,7 +1,5 @@
 package com.android.organizer.presentation
 
-import android.os.Bundle
-
 interface BaseContract {
 
     interface View
