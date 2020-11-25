@@ -5,23 +5,19 @@ import com.android.organizer.presentation.search.SearchType
 
 class MainPresenter : BasePresenter<MainContract.View>(), MainContract.Presenter {
 
-    override fun onBottomSheetSlide(slideOffset: Float) {
-        view.moveBottomSheetVertically(slideOffset)
-    }
-
-    override fun onSearchButtonClick() {
-        if (view.isBottomSheetExpanded()) {
-            view.collapseBottomSheet()
-        } else {
-            view.expandBottomSheet()
-        }
+    override fun onMenuSearchButtonClick() {
+        view.toggleSearchOptionsLayoutVisibility(view.isBottomSheetHidden())
     }
 
     override fun onSearchArtistClick() {
+        view.selectNavigationBarSearchOption()
+        view.toggleSearchOptionsLayoutVisibility(false)
         view.navigateToSearch(SearchType.ARTIST)
     }
 
     override fun onSearchAlbumClick() {
+        view.selectNavigationBarSearchOption()
+        view.toggleSearchOptionsLayoutVisibility(false)
         view.navigateToSearch(SearchType.ALBUM)
     }
 }

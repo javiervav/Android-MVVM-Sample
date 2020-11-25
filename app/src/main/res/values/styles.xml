@@ -12,8 +12,19 @@
     <style name="TextTitle">
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
+
     <style name="TextMedium">
         <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <!-- Ripple background -->
+    <style name="SelectableItemTheme">
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
+
+    <style name="SelectableItemBackground">
+        <item name="android:theme">@style/SelectableItemTheme</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
 </resources>

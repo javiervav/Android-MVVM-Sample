@@ -1,70 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".presentation.main.MainActivity">
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/mainFragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/mainBottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/mainFragmentContainerView"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/mainBottomNavigationView"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="-119dp">
-
-            <include
-                layout="@layout/search_bottom_sheet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/mainBottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimary"
-            app:itemIconTint="@drawable/bottom_nav_item_color"
-            app:itemTextColor="@drawable/bottom_nav_item_color"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_navigation_menu" />
-
-    </RelativeLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainBottomNavigationCenterButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/searchBottomSheetLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="205dp"
-        app:behavior_hideable="false"
-        app:behavior_peekHeight="85dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        android:background="@drawable/background_bottom_sheet_header"
+        android:orientation="vertical"
+        android:paddingTop="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/mainBottomNavigationView">
 
-        <ImageView
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:background="@drawable/background_bottom_search_button"
-            android:padding="10dp"
-            android:src="@drawable/ic_search"
+        <TextView
+            android:id="@+id/bottomSheetFirstOption"
+            style="@style/SelectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_sheet_option_height"
+            android:gravity="center"
+            android:text="@string/search_first_option"
+            app:layout_constraintBottom_toTopOf="@id/bottomSheetSecondOption"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/bottomSheetSecondOption"
+            style="@style/SelectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_sheet_option_height"
+            android:gravity="center"
+            android:text="@string/search_second_option"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bottomSheetFirstOption" />
+    </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/mainBottomNavigationView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@drawable/bottom_nav_item_color"
+        app:itemTextColor="@drawable/bottom_nav_item_color"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mainFragmentContainerView"
+        app:menu="@menu/bottom_navigation_menu" />
+
+    <ImageView
+        android:id="@+id/menuSearchButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="@drawable/background_bottom_search_button"
+        android:elevation="8dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toTopOf="@id/mainBottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/mainBottomNavigationView"
+        tools:ignore="ContentDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
