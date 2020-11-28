@@ -3,20 +3,28 @@ package com.android.organizer.utils.extensions
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.onStart
 
-// TODO: Can I make it inline? Check inline, noninline, crossinline
-fun EditText.onTextChanged(callback: (String) -> Unit, minimumChars: Int = 1) {
-    addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {}
+private const val DEBOUNCE_TIME = 500L
 
+@FlowPreview
+@ExperimentalCoroutinesApi
+fun EditText.onTextChangeDebounced(): Flow<CharSequence?> = callbackFlow {
+    val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            s?.let { text ->
-                if (text.trim().length >= minimumChars) {
-                    callback(text.toString())
-                }
-            }
+            offer(s)
         }
-    })
-}
+
+        override fun afterTextChanged(s: Editable?) {}
+    }
+    addTextChangedListener(textWatcher)
+    awaitClose { removeTextChangedListener(textWatcher) }
+}.debounce(DEBOUNCE_TIME).onStart { emit(text) }

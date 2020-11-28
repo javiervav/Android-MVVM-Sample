@@ -8,12 +8,10 @@ interface SearchContract {
     interface View : BaseContract.View {
         fun getSearchType(): SearchType?
         fun initViews()
-        fun openSearchDialog()
         fun updateArtistList(artists: List<Artist>)
     }
 
     interface Presenter : BaseContract.Presenter {
-        fun onSearchFieldClicked()
         fun searchInfo(text: String)
     }
 }

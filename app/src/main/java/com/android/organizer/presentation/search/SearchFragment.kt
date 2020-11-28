@@ -1,18 +1,24 @@
 package com.android.organizer.presentation.search
 
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.android.domain.models.Artist
 import com.android.organizer.R
 import com.android.organizer.presentation.BaseFragment
-import com.android.organizer.presentation.search.dialog.SearchDialogFragment
-import com.google.android.material.internal.TextWatcherAdapter
+import com.android.organizer.utils.extensions.onTextChangeDebounced
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class SearchFragment : BaseFragment<SearchContract.Presenter>(), SearchContract.View {
 
     companion object {
         private const val SEARCH_TYPE = "searchType"
-        private const val SEARCH_DIALOG_FRAGMENT_TAG = "searchDialogFragmentTag"
     }
 
     override fun getLayoutResource() = R.layout.fragment_search
@@ -20,19 +26,7 @@ class SearchFragment : BaseFragment<SearchContract.Presenter>(), SearchContract.
     override fun getSearchType(): SearchType? = arguments?.getSerializable(SEARCH_TYPE) as? SearchType
 
     override fun initViews() {
-        searchEt.setOnClickListener { presenter.onSearchFieldClicked() }
-//        addSearchEditTextListener()
-    }
-
-    override fun openSearchDialog() {
-        activity?.supportFragmentManager?.beginTransaction()?.let { fragmentTransaction ->
-            val previousDialog = activity?.supportFragmentManager?.findFragmentByTag(SEARCH_DIALOG_FRAGMENT_TAG)
-            if (previousDialog != null) {
-                fragmentTransaction.remove(previousDialog)
-            }
-            fragmentTransaction.addToBackStack(null)
-            SearchDialogFragment.newInstance().show(fragmentTransaction, SEARCH_DIALOG_FRAGMENT_TAG)
-        }
+        addSearchEditTextListener()
     }
 
     override fun updateArtistList(artists: List<Artist>) {
@@ -40,10 +34,9 @@ class SearchFragment : BaseFragment<SearchContract.Presenter>(), SearchContract.
     }
 
     private fun addSearchEditTextListener() {
-        searchEt.addTextChangedListener(object : TextWatcherAdapter() {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                presenter.searchInfo(s.toString())
-            }
-        })
+        searchEt.onTextChangeDebounced()
+            .filterNot { it.isNullOrBlank() }
+            .onEach { presenter.searchInfo(it.toString()) }
+            .launchIn(lifecycleScope)
     }
 }

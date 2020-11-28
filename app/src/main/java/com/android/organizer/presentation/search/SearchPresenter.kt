@@ -16,10 +16,6 @@ class SearchPresenter(
         view.initViews()
     }
 
-    override fun onSearchFieldClicked() {
-        view.openSearchDialog()
-    }
-
     override fun searchInfo(text: String) {
         if (text.length >= MIN_CHARACTERS) {
             getArtistInfoUseCase.execute(text = text, callback = { artistList -> view.updateArtistList(artistList) })
