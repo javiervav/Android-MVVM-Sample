@@ -20,13 +20,11 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextFields" />
 
-    <TextView
-        android:id="@+id/searchResultRv"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchRv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/default_vertical_margin"
-        android:gravity="center"
-        android:text="BUSCA ALGO"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchEt" />
 

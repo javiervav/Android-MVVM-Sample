@@ -2,6 +2,7 @@ package com.android.organizer.presentation.search
 
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.domain.models.Artist
 import com.android.organizer.R
 import com.android.organizer.presentation.BaseFragment
@@ -21,20 +22,32 @@ class SearchFragment : BaseFragment<SearchContract.Presenter>(), SearchContract.
         private const val SEARCH_TYPE = "searchType"
     }
 
+    private lateinit var searchListAdapter: SearchListAdapter
+
     override fun getLayoutResource() = R.layout.fragment_search
 
     override fun getSearchType(): SearchType? = arguments?.getSerializable(SEARCH_TYPE) as? SearchType
 
     override fun initViews() {
+        initList()
         addSearchEditTextListener()
     }
 
     override fun updateArtistList(artists: List<Artist>) {
-        Toast.makeText(activity, artists.size.toString(), Toast.LENGTH_SHORT).show()
+        searchListAdapter.submitList(artists)
     }
 
     override fun showError() {
         Toast.makeText(activity, "ERROR", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun initList() {
+        searchListAdapter = SearchListAdapter()
+        with(searchRv) {
+            layoutManager = LinearLayoutManager(activity)
+            setHasFixedSize(true)
+            adapter = searchListAdapter
+        }
     }
 
     private fun addSearchEditTextListener() {
