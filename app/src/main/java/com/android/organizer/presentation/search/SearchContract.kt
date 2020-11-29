@@ -9,6 +9,7 @@ interface SearchContract {
         fun getSearchType(): SearchType?
         fun initViews()
         fun updateArtistList(artists: List<Artist>)
+        fun showError()
     }
 
     interface Presenter : BaseContract.Presenter {

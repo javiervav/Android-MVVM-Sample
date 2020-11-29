@@ -1,6 +1,7 @@
 package com.android.data.repository
 
 import com.android.data.remote.MusicApi
+import com.android.domain.Result
 import com.android.domain.models.Album
 import com.android.domain.models.Artist
 import com.android.domain.repositories.MusicRepositoryContract
@@ -9,13 +10,18 @@ class MusicRepository(
     private val musicApi: MusicApi
 ) : MusicRepositoryContract {
 
-    override fun getArtistList(accessToken: String, text: String): List<Artist> {
+    override fun getArtistList(accessToken: String, text: String): Result<List<Artist>> {
         val queryParams = getArtistListQueryParams(text)
         val response = musicApi.getArtistList(queryParams, "Bearer $accessToken").execute()
         return if (response.isSuccessful) {
-            response.body()?.artists?.items?.sortedByDescending { it.popularity }?.take(MAX_ARTISTS_RETURN_VALUES)?.map { it.toDomainArtist() }.orEmpty()
+            val artistList = response.body()?.artists?.items
+                ?.sortedByDescending { it.popularity }
+                ?.take(MAX_ARTISTS_RETURN_VALUES)
+                ?.map { it.toDomainArtist() }
+                .orEmpty()
+            Result.Success(artistList)
         } else {
-            emptyList()
+            Result.Failure
         }
     }
 

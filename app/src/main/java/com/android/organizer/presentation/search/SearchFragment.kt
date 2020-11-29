@@ -33,6 +33,10 @@ class SearchFragment : BaseFragment<SearchContract.Presenter>(), SearchContract.
         Toast.makeText(activity, artists.size.toString(), Toast.LENGTH_SHORT).show()
     }
 
+    override fun showError() {
+        Toast.makeText(activity, "ERROR", Toast.LENGTH_SHORT).show()
+    }
+
     private fun addSearchEditTextListener() {
         searchEt.onTextChangeDebounced()
             .filterNot { it.isNullOrBlank() }

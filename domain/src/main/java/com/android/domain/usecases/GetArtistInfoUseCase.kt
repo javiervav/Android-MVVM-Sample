@@ -1,5 +1,6 @@
 package com.android.domain.usecases
 
+import com.android.domain.Result
 import com.android.domain.models.Artist
 import com.android.domain.repositories.AuthRepositoryContract
 import com.android.domain.repositories.MusicRepositoryContract
@@ -13,7 +14,7 @@ class GetArtistInfoUseCase(
     private val musicRepository: MusicRepositoryContract
 ) {
 
-    fun execute(text: String, callback: (List<Artist>) -> Unit) {
+    fun execute(text: String, callback: (Result<List<Artist>>) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             val result = run(text)
             withContext(Dispatchers.Main) {
@@ -22,8 +23,12 @@ class GetArtistInfoUseCase(
         }
     }
 
-    private fun run(text: String): List<Artist> {
+    private fun run(text: String): Result<List<Artist>> {
         val accessToken = authRepository.getAccessToken() // TODO: Save accessToken in database and when api fails, call it again (Interceptor)
-        return musicRepository.getArtistList(accessToken!!, text) // TODO: Remove exclamation marks
+        return if (accessToken is Result.Success<String>) {
+            musicRepository.getArtistList(accessToken.value, text)
+        } else {
+            Result.Failure
+        }
     }
 }
