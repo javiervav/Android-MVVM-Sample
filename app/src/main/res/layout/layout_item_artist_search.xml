@@ -10,7 +10,7 @@
         android:id="@+id/searchItemImage"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="@dimen/default_horizontal_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/searchItemText"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/half_vertical_margin">
+
+    <View
+        android:id="@+id/searchItemPlaceholderImage"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="@dimen/default_horizontal_margin"
+        android:background="@color/colorPrimaryBright"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/searchItemPlaceholderText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/searchItemPlaceholderText"
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        android:background="@color/colorPrimaryBright"
+        app:layout_constraintBottom_toTopOf="@id/searchItemPlaceholderFollowers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/searchItemPlaceholderImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/searchItemPlaceholderFollowers"
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        android:background="@color/colorPrimaryBright"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/searchItemPlaceholderText"
+        app:layout_constraintTop_toBottomOf="@id/searchItemPlaceholderText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

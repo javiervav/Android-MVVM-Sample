@@ -20,11 +20,13 @@ class SearchPresenter(
 
     override fun searchInfo(text: String) {
         if (text.length >= MIN_CHARACTERS) {
+            view.toggleLoader(true)
             getArtistInfoUseCase.execute(text = text, callback = { artistListResult -> onArtistInfoReceived(artistListResult) })
         }
     }
 
     private fun onArtistInfoReceived(result: Result<List<Artist>>) {
+        view.toggleLoader(false)
         if (result is Result.Success) {
             view.updateArtistList(result.value)
         } else {

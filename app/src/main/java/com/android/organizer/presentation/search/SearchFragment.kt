@@ -1,5 +1,6 @@
 package com.android.organizer.presentation.search
 
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +40,16 @@ class SearchFragment : BaseFragment<SearchContract.Presenter>(), SearchContract.
 
     override fun showError() {
         Toast.makeText(activity, "ERROR", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun toggleLoader(visible: Boolean) {
+        if (visible) {
+            searchPlaceholderLayout.visibility = View.VISIBLE
+            searchRv.visibility = View.GONE
+        } else {
+            searchRv.visibility = View.VISIBLE
+            searchPlaceholderLayout.visibility = View.GONE
+        }
     }
 
     private fun initList() {
