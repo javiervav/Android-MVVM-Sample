@@ -8,7 +8,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.domain.models.Artist
 import com.android.organizer.R
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.layout_item_artist_search.view.*
+
 
 class SearchListAdapter : ListAdapter<Artist, SearchListAdapter.SearchListViewHolder>(SearchListDiffCallback()) {
 
@@ -23,7 +27,12 @@ class SearchListAdapter : ListAdapter<Artist, SearchListAdapter.SearchListViewHo
 
     class SearchListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(artist: Artist) {
+            Glide.with(itemView.context)
+                .load(artist.imageUrl)
+                .transform(CenterCrop(), RoundedCorners(itemView.context.resources.getDimensionPixelSize(R.dimen.default_corner_radius)))
+                .into(itemView.searchItemImage)
             itemView.searchItemText.text = artist.name
+            itemView.searchItemFollowers.text = artist.genres?.joinToString()
         }
     }
 }

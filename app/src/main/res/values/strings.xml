@@ -13,4 +13,5 @@
     <string name="search_second_option">Album</string>
 
     <string name="search_field_hint">Search</string>
+    <string name="search_item_followers">Followers %1$d</string>
 </resources>

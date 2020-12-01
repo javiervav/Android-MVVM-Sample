@@ -15,7 +15,7 @@ class MusicRepository(
         val response = musicApi.getArtistList(queryParams, "Bearer $accessToken").execute()
         return if (response.isSuccessful) {
             val artistList = response.body()?.artists?.items
-                ?.sortedByDescending { it.popularity }
+                ?.sortedByDescending { it.followers.total }
                 ?.take(MAX_ARTISTS_RETURN_VALUES)
                 ?.map { it.toDomainArtist() }
                 .orEmpty()
