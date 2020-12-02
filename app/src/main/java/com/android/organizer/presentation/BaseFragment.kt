@@ -29,6 +29,5 @@ abstract class BaseFragment<T : BaseContract.Presenter> : BaseContract.View, Fra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.attachView(this)
-        presenter.onViewCreated()
     }
 }

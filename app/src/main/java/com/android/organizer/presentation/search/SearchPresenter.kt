@@ -13,11 +13,6 @@ class SearchPresenter(
         private const val MIN_CHARACTERS = 3
     }
 
-    override fun onViewCreated() {
-        super.onViewCreated()
-        view.initViews()
-    }
-
     override fun searchInfo(text: String) {
         if (text.length >= MIN_CHARACTERS) {
             view.toggleLoader(true)

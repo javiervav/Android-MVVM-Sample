@@ -7,7 +7,6 @@ interface SearchContract {
 
     interface View : BaseContract.View {
         fun getSearchType(): SearchType?
-        fun initViews()
         fun updateArtistList(artists: List<Artist>)
         fun showError()
         fun toggleLoader(visible: Boolean)

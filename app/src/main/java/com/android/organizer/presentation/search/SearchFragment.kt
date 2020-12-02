@@ -1,5 +1,6 @@
 package com.android.organizer.presentation.search
 
+import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -29,9 +30,9 @@ class SearchFragment : BaseFragment<SearchContract.Presenter>(), SearchContract.
 
     override fun getSearchType(): SearchType? = arguments?.getSerializable(SEARCH_TYPE) as? SearchType
 
-    override fun initViews() {
-        initList()
-        addSearchEditTextListener()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews()
     }
 
     override fun updateArtistList(artists: List<Artist>) {
@@ -50,6 +51,11 @@ class SearchFragment : BaseFragment<SearchContract.Presenter>(), SearchContract.
             searchRv.visibility = View.VISIBLE
             searchPlaceholderLayout.visibility = View.GONE
         }
+    }
+
+    private fun initViews() {
+        initList()
+        addSearchEditTextListener()
     }
 
     private fun initList() {

@@ -6,6 +6,5 @@ interface BaseContract {
 
     interface Presenter {
         fun attachView(view: View)
-        fun onViewCreated()
     }
 }
