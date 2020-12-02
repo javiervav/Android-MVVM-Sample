@@ -488,8 +488,8 @@ style:
     active: false
     includeLineWrapping: false
   ForbiddenComment:
-    active: true
-    values: ['FIXME:', 'STOPSHIP:']
+    active: false
+    values: ['TODO:', 'FIXME:', 'STOPSHIP:']
     allowedPatterns: ''
   ForbiddenImport:
     active: false
