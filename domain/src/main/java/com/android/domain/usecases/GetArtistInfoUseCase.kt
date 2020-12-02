@@ -24,7 +24,8 @@ class GetArtistInfoUseCase(
     }
 
     private fun run(text: String): Result<List<Artist>> {
-        val accessToken = authRepository.getAccessToken() // TODO: Save accessToken in database and when api fails, call it again (Interceptor)
+        // TODO: Save accessToken in database and when api fails, call it again (Interceptor)
+        val accessToken = authRepository.getAccessToken()
         return if (accessToken is Result.Success<String>) {
             musicRepository.getArtistList(accessToken.value, text)
         } else {

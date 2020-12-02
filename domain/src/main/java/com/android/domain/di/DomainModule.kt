@@ -12,6 +12,8 @@ class DomainModule {
 
     @Singleton
     @Provides
-    fun providesGetArtistInfoUseCase(authRepository: AuthRepositoryContract, musicRepository: MusicRepositoryContract): GetArtistInfoUseCase =
-        GetArtistInfoUseCase(authRepository, musicRepository)
+    fun providesGetArtistInfoUseCase(
+        authRepository: AuthRepositoryContract,
+        musicRepository: MusicRepositoryContract
+    ): GetArtistInfoUseCase = GetArtistInfoUseCase(authRepository, musicRepository)
 }
