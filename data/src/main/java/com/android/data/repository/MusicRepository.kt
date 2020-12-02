@@ -29,8 +29,11 @@ class MusicRepository(
         val queryParams = getAlbumListQueryParams(text)
         val response = musicApi.getAlbumList(queryParams, "Bearer $accessToken").execute()
         return if (response.isSuccessful) {
-            // This endpoint returns albums released by bands with "text" in its name, but not in album's name. That's why filter is added.
-            response.body()?.albums?.items?.filter { it.name.contains(text, true) }?.map { it.toDomainAlbum() }.orEmpty().take(MAX_ALBUMS_RETURN_VALUES)
+            // This endpoint returns albums released by bands with "text" in its name, but not in album's name.
+            // That's why filter is added.
+            response.body()?.albums?.items
+                ?.filter { it.name.contains(text, true) }
+                ?.map { it.toDomainAlbum() }.orEmpty().take(MAX_ALBUMS_RETURN_VALUES)
         } else {
             emptyList()
         }

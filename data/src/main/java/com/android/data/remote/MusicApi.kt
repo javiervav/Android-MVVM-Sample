@@ -10,10 +10,16 @@ import retrofit2.http.QueryMap
 interface MusicApi {
 
     @GET("search?type=artist")
-    fun getArtistList(@QueryMap params: Map<String, String>, @Header("Authorization") bearerToken: String): Call<ArtistWrapper>
+    fun getArtistList(
+        @QueryMap params: Map<String, String>,
+        @Header("Authorization") bearerToken: String
+    ): Call<ArtistWrapper>
 
     @GET("search?type=album")
-    fun getAlbumList(@QueryMap params: Map<String, String>, @Header("Authorization") bearerToken: String): Call<AlbumWrapper>
+    fun getAlbumList(
+        @QueryMap params: Map<String, String>,
+        @Header("Authorization") bearerToken: String
+    ): Call<AlbumWrapper>
 
     companion object {
         fun getBaseUrl() = "https://api.spotify.com/v1/"

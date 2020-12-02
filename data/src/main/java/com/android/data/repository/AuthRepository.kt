@@ -3,6 +3,7 @@ package com.android.data.repository
 import com.android.data.remote.AuthApi
 import com.android.domain.Result
 import com.android.domain.repositories.AuthRepositoryContract
+import java.net.UnknownHostException
 
 class AuthRepository(
     private val authApi: AuthApi
@@ -17,7 +18,7 @@ class AuthRepository(
         } else {
             Result.Failure
         }
-    } catch (e: Exception) {
+    } catch (e: UnknownHostException) {
         Result.Failure
     }
 }
