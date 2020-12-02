@@ -18,5 +18,6 @@ class PresentersModule {
 
     @Singleton
     @Provides
-    fun provideSearchPresenter(getArtistInfoUseCase: GetArtistInfoUseCase): SearchContract.Presenter = SearchPresenter(getArtistInfoUseCase)
+    fun provideSearchPresenter(getArtistInfoUseCase: GetArtistInfoUseCase): SearchContract.Presenter =
+        SearchPresenter(getArtistInfoUseCase)
 }

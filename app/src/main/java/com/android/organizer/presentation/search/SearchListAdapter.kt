@@ -27,9 +27,10 @@ class SearchListAdapter : ListAdapter<Artist, SearchListAdapter.SearchListViewHo
 
     class SearchListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(artist: Artist) {
+            val roundedCornerRadius = itemView.context.resources.getDimensionPixelSize(R.dimen.default_corner_radius)
             Glide.with(itemView.context)
                 .load(artist.imageUrl)
-                .transform(CenterCrop(), RoundedCorners(itemView.context.resources.getDimensionPixelSize(R.dimen.default_corner_radius)))
+                .transform(CenterCrop(), RoundedCorners(roundedCornerRadius))
                 .into(itemView.searchItemImage)
             itemView.searchItemText.text = artist.name
             itemView.searchItemFollowers.text = artist.genres?.joinToString()
