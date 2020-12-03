@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -28,6 +29,6 @@ abstract class BaseFragment<T : BaseContract.Presenter> : BaseContract.View, Fra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.attachView(this)
+        presenter.attachView(this, lifecycleScope)
     }
 }

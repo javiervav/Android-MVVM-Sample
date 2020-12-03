@@ -4,6 +4,9 @@ import com.android.domain.Result
 import com.android.domain.models.Artist
 import com.android.domain.usecases.GetArtistInfoUseCase
 import com.android.organizer.presentation.BasePresenter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SearchPresenter(
     private val getArtistInfoUseCase: GetArtistInfoUseCase
@@ -16,10 +19,12 @@ class SearchPresenter(
     override fun searchInfo(text: String) {
         if (text.length >= MIN_CHARACTERS) {
             view.toggleLoader(true)
-            getArtistInfoUseCase.execute(
-                text = text,
-                callback = { artistListResult -> onArtistInfoReceived(artistListResult) }
-            )
+            scope.launch {
+                val result = withContext(Dispatchers.IO) {
+                    getArtistInfoUseCase.execute(text)
+                }
+                onArtistInfoReceived(result)
+            }
         }
     }
 
