@@ -1,4 +1,4 @@
-# Organizer
+# MVVM-Sample
 
 ## Table of contents
 

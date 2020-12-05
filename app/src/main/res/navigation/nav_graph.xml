@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.android.organizer.presentation.home.HomeFragment"
+        android:name="com.android.mvvmsample.presentation.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/booksFragment"
-        android:name="com.android.organizer.presentation.books.BooksFragment"
+        android:name="com.android.mvvmsample.presentation.books.BooksFragment"
         android:label="BooksFragment"
         tools:layout="@layout/fragment_books" />
 
@@ -23,24 +23,24 @@
         app:destination="@id/searchFragment">
         <argument
             android:name="searchType"
-            app:argType="com.android.organizer.presentation.search.SearchType" />
+            app:argType="com.android.mvvmsample.presentation.search.SearchType" />
     </action>
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.android.organizer.presentation.search.SearchFragment"
+        android:name="com.android.mvvmsample.presentation.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/musicFragment"
-        android:name="com.android.organizer.presentation.music.MusicFragment"
+        android:name="com.android.mvvmsample.presentation.music.MusicFragment"
         android:label="MusicFragment"
         tools:layout="@layout/fragment_music" />
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.android.organizer.presentation.profile.ProfileFragment"
+        android:name="com.android.mvvmsample.presentation.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
 

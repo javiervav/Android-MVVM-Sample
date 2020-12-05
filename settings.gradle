@@ -1,4 +1,4 @@
 include ':data'
 include ':domain'
-rootProject.name='Organizer'
+rootProject.name = 'MVVM-Sample'
 include ':app'
