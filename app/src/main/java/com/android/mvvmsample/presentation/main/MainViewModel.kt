@@ -9,16 +9,20 @@ class MainViewModel : ViewModel() {
     val navigationBarSearchOptionSelected = MutableLiveData<Boolean>()
 
     fun onMenuSearchButtonClick() {
-        searchOptionsLayoutVisibility.value = searchOptionsLayoutVisibility.value != true
+        toggleSearchOptionsLayoutVisibility()
     }
 
     fun onSearchArtistClick() {
         navigationBarSearchOptionSelected.value = true
-        searchOptionsLayoutVisibility.value = searchOptionsLayoutVisibility.value != true
+        toggleSearchOptionsLayoutVisibility()
     }
 
     fun onSearchAlbumClick() {
         navigationBarSearchOptionSelected.value = true
+        toggleSearchOptionsLayoutVisibility()
+    }
+
+    private fun toggleSearchOptionsLayoutVisibility() {
         searchOptionsLayoutVisibility.value = searchOptionsLayoutVisibility.value != true
     }
 }
