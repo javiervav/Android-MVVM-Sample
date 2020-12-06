@@ -1,25 +1,32 @@
 package com.android.mvvmsample.presentation.search
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.android.domain.Result
 import com.android.domain.models.Artist
 import com.android.domain.usecases.GetArtistInfoUseCase
-import com.android.mvvmsample.presentation.BasePresenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class SearchPresenter(
+class SearchViewModel @Inject constructor(
     private val getArtistInfoUseCase: GetArtistInfoUseCase
-) : BasePresenter<SearchContract.View>(), SearchContract.Presenter {
+) : ViewModel() {
 
     companion object {
         private const val MIN_CHARACTERS = 3
     }
 
-    override fun searchInfo(text: String) {
+    val toggleLoaderVisibility = MutableLiveData<Boolean>()
+    val errorLayoutVisibility = MutableLiveData<Boolean>()
+    val artistList = MutableLiveData<List<Artist>>()
+
+    fun searchInfo(text: String) {
         if (text.length >= MIN_CHARACTERS) {
-            view.toggleLoader(true)
-            scope.launch {
+            toggleLoaderVisibility.value = true
+            viewModelScope.launch {
                 val result = withContext(Dispatchers.IO) {
                     getArtistInfoUseCase.execute(text)
                 }
@@ -29,11 +36,11 @@ class SearchPresenter(
     }
 
     private fun onArtistInfoReceived(result: Result<List<Artist>>) {
-        view.toggleLoader(false)
+        toggleLoaderVisibility.value = false
         if (result is Result.Success) {
-            view.updateArtistList(result.value)
+            artistList.value = result.value
         } else {
-            view.showError()
+            errorLayoutVisibility.value = true
         }
     }
 }

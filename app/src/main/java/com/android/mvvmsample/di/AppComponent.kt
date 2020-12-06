@@ -13,9 +13,10 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidInjectionModule::class,
+        ViewModelFactoryModule::class,
+        ViewModelsModule::class,
         ActivitiesModule::class,
         FragmentsModule::class,
-        PresentersModule::class,
         DomainModule::class,
         DataModule::class // TODO: This is forcing me to add a dependency to data, which is not good!
     ]
