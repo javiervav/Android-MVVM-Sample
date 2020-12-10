@@ -27,7 +27,10 @@ buildscript {
             'coroutines'      : '1.3.7',
             'recyclerview'    : '28.0.0',
             'glide'           : '4.11.0',
-            'shimmerlayout'   : '0.5.0'
+            'shimmerlayout'   : '0.5.0',
+            'mockitokotlin'   : '2.2.0',
+            'coroutinestest'  : '1.3.0',
+            'archcoretesting' : '2.1.0'
     ]
 
     repositories {

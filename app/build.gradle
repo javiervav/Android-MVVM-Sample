@@ -59,4 +59,8 @@ dependencies {
     testImplementation "junit:junit:${versions.junit}"
     androidTestImplementation "androidx.test.ext:junit:${versions.test_junit}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso_core}"
+
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.mockitokotlin}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutinestest}"
+    testImplementation "androidx.arch.core:core-testing:${versions.archcoretesting}"
 }

@@ -1,5 +1,6 @@
 package com.android.mvvmsample.presentation.search
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,13 +20,16 @@ class SearchViewModel @Inject constructor(
         private const val MIN_CHARACTERS = 3
     }
 
-    val toggleLoaderVisibility = MutableLiveData<Boolean>()
-    val errorLayoutVisibility = MutableLiveData<Boolean>()
-    val artistList = MutableLiveData<List<Artist>>()
+    private val _toggleLoaderVisibility = MutableLiveData<Boolean>()
+    val toggleLoaderVisibility: LiveData<Boolean> = _toggleLoaderVisibility
+    private val _errorLayoutVisibility = MutableLiveData<Boolean>()
+    val errorLayoutVisibility: LiveData<Boolean> = _errorLayoutVisibility
+    private val _artistList = MutableLiveData<List<Artist>>()
+    val artistList: LiveData<List<Artist>> = _artistList
 
     fun searchInfo(text: String) {
         if (text.length >= MIN_CHARACTERS) {
-            toggleLoaderVisibility.value = true
+            _toggleLoaderVisibility.value = true
             viewModelScope.launch {
                 val result = withContext(Dispatchers.IO) {
                     getArtistInfoUseCase.execute(text)
@@ -36,11 +40,11 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onArtistInfoReceived(result: Result<List<Artist>>) {
-        toggleLoaderVisibility.value = false
+        _toggleLoaderVisibility.value = false
         if (result is Result.Success) {
-            artistList.value = result.value
+            _artistList.value = result.value
         } else {
-            errorLayoutVisibility.value = true
+            _errorLayoutVisibility.value = true
         }
     }
 }
