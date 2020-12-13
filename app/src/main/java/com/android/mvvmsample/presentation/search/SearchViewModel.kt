@@ -7,12 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.android.domain.Result
 import com.android.domain.models.Artist
 import com.android.domain.usecases.GetArtistInfoUseCase
-import kotlinx.coroutines.Dispatchers
+import com.android.mvvmsample.di.IODispatcher
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher,
     private val getArtistInfoUseCase: GetArtistInfoUseCase
 ) : ViewModel() {
 
@@ -31,7 +33,7 @@ class SearchViewModel @Inject constructor(
         if (text.length >= MIN_CHARACTERS) {
             _toggleLoaderVisibility.value = true
             viewModelScope.launch {
-                val result = withContext(Dispatchers.IO) {
+                val result = withContext(ioDispatcher) {
                     getArtistInfoUseCase.execute(text)
                 }
                 onArtistInfoReceived(result)

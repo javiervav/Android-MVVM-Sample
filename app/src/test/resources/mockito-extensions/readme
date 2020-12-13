@@ -1,0 +1,4 @@
+The MockMaker class within mockito-extensions folder is needed to be able to mock final classes, which is now available in Mockito 2
+https://github.com/mockito/mockito/wiki/What%27s-new-in-Mockito-2#mock-the-unmockable-opt-in-mocking-of-final-classesmethods
+
+For example, in SearchViewModelTest I need to mock the GetArtistInfoUseCase, which is final (by default in Kotlin)
