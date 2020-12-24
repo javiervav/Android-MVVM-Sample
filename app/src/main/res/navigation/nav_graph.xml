@@ -22,7 +22,7 @@
         android:id="@+id/actionGlobalSearchFragment"
         app:destination="@id/searchFragment">
         <argument
-            android:name="searchType"
+            android:name="searchTypeArg"
             app:argType="com.android.mvvmsample.presentation.search.SearchType" />
     </action>
 

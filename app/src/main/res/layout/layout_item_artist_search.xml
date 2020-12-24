@@ -12,35 +12,35 @@
         android:layout_height="64dp"
         android:layout_marginEnd="@dimen/default_horizontal_margin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/searchItemText"
+        app:layout_constraintEnd_toStartOf="@id/searchItemTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/searchItemText"
+        android:id="@+id/searchItemTitle"
         style="@style/TextMedium"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:ellipsize="end"
         android:maxLines="1"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/searchItemFollowers"
+        app:layout_constraintBottom_toTopOf="@id/searchItemText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/searchItemImage"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Artist name" />
 
     <TextView
-        android:id="@+id/searchItemFollowers"
+        android:id="@+id/searchItemText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/searchItemText"
-        app:layout_constraintTop_toBottomOf="@id/searchItemText"
+        app:layout_constraintStart_toStartOf="@id/searchItemTitle"
+        app:layout_constraintTop_toBottomOf="@id/searchItemTitle"
         tools:text="5 followers" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

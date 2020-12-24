@@ -3,8 +3,10 @@ package com.android.mvvmsample
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.android.domain.Result
-import com.android.domain.models.Artist
+import com.android.domain.models.SearchItem
+import com.android.domain.usecases.GetAlbumInfoUseCase
 import com.android.domain.usecases.GetArtistInfoUseCase
+import com.android.mvvmsample.presentation.search.SearchType
 import com.android.mvvmsample.presentation.search.SearchViewModel
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -25,7 +27,10 @@ import org.mockito.Mockito
 class SearchViewModelTest {
 
     private val getArtistInfoUseCase: GetArtistInfoUseCase = Mockito.mock(GetArtistInfoUseCase::class.java)
-    private val artistList: List<Artist> = listOf(Mockito.mock(Artist::class.java), Mockito.mock(Artist::class.java))
+    private val getAlbumInfoUseCase: GetAlbumInfoUseCase = Mockito.mock(GetAlbumInfoUseCase::class.java)
+    private val artistList: List<SearchItem.Artist> = listOf(
+        Mockito.mock(SearchItem.Artist::class.java), Mockito.mock(SearchItem.Artist::class.java)
+    )
     private lateinit var searchViewModel: SearchViewModel
 
     private val testDispatcher = TestCoroutineDispatcher()
@@ -35,7 +40,7 @@ class SearchViewModelTest {
 
     @Before
     fun setup() {
-        searchViewModel = SearchViewModel(testDispatcher, getArtistInfoUseCase)
+        searchViewModel = SearchViewModel(testDispatcher, getArtistInfoUseCase, getAlbumInfoUseCase)
 
         Dispatchers.setMain(testDispatcher)
     }
@@ -48,10 +53,10 @@ class SearchViewModelTest {
 
     @Test
     fun `should not load results if text is shorter than three digits`() {
-        searchViewModel.searchInfo("AA")
+        searchViewModel.searchInfo("AA", SearchType.ARTIST)
 
         assertNull(searchViewModel.toggleLoaderVisibility.value)
-        assertNull(searchViewModel.artistList.value)
+        assertNull(searchViewModel.searchItemList.value)
         assertNull(searchViewModel.errorLayoutVisibility.value)
     }
 
@@ -60,11 +65,11 @@ class SearchViewModelTest {
         val searchText = "Queen"
         val toggleLoaderVisibilityObserver = mock<Observer<Boolean>>()
         searchViewModel.toggleLoaderVisibility.observeForever(toggleLoaderVisibilityObserver)
-        val artistListObserver = mock<Observer<List<Artist>>>()
-        searchViewModel.artistList.observeForever(artistListObserver)
+        val artistListObserver = mock<Observer<List<SearchItem>>>()
+        searchViewModel.searchItemList.observeForever(artistListObserver)
         whenever(getArtistInfoUseCase.execute(searchText)).thenReturn(Result.Success(artistList))
 
-        searchViewModel.searchInfo(searchText)
+        searchViewModel.searchInfo(searchText, SearchType.ARTIST)
 
         verify(toggleLoaderVisibilityObserver).onChanged(true)
         verify(toggleLoaderVisibilityObserver).onChanged(false)
@@ -81,11 +86,11 @@ class SearchViewModelTest {
         searchViewModel.errorLayoutVisibility.observeForever(toggleErrorLayoutVisibilityObserver)
         whenever(getArtistInfoUseCase.execute(searchText)).thenReturn(Result.Failure)
 
-        searchViewModel.searchInfo(searchText)
+        searchViewModel.searchInfo(searchText, SearchType.ARTIST)
 
         verify(toggleLoaderVisibilityObserver).onChanged(true)
         verify(toggleLoaderVisibilityObserver).onChanged(false)
-        assertNull(searchViewModel.artistList.value)
+        assertNull(searchViewModel.searchItemList.value)
         verify(toggleErrorLayoutVisibilityObserver).onChanged(true)
     }
 }

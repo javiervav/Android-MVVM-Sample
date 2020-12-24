@@ -1,5 +1,6 @@
 package com.android.data.models
 
+import com.android.domain.models.SearchItem
 import com.google.gson.annotations.SerializedName
 
 data class AlbumWrapper(
@@ -16,7 +17,7 @@ data class Album(
     @SerializedName("external_urls") val externalUrls: ExternalUrls,
     val images: List<Image>
 ) {
-    fun toDomainAlbum() : com.android.domain.models.Album = com.android.domain.models.Album(
+    fun toDomainAlbum(): SearchItem.Album = SearchItem.Album(
         id = id,
         name = name,
         artist = artists[0].name,

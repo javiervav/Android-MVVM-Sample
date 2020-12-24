@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToSearch(searchType: SearchType) {
-        val action = SearchFragmentDirections.actionGlobalSearchFragment(searchType = searchType)
+        val action = SearchFragmentDirections.actionGlobalSearchFragment(searchTypeArg = searchType)
         findNavController(R.id.mainFragmentContainerView).navigate(action)
     }
 

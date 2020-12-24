@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.domain.Result
-import com.android.domain.models.Artist
+import com.android.domain.models.SearchItem
+import com.android.domain.usecases.GetAlbumInfoUseCase
 import com.android.domain.usecases.GetArtistInfoUseCase
 import com.android.mvvmsample.di.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val getArtistInfoUseCase: GetArtistInfoUseCase
+    private val getArtistInfoUseCase: GetArtistInfoUseCase,
+    private val getAlbumInfoUseCase: GetAlbumInfoUseCase
 ) : ViewModel() {
 
     companion object {
@@ -26,25 +28,28 @@ class SearchViewModel @Inject constructor(
     val toggleLoaderVisibility: LiveData<Boolean> = _toggleLoaderVisibility
     private val _errorLayoutVisibility = MutableLiveData<Boolean>()
     val errorLayoutVisibility: LiveData<Boolean> = _errorLayoutVisibility
-    private val _artistList = MutableLiveData<List<Artist>>()
-    val artistList: LiveData<List<Artist>> = _artistList
+    private val _searchItemList = MutableLiveData<List<SearchItem>>()
+    val searchItemList: LiveData<List<SearchItem>> = _searchItemList
 
-    fun searchInfo(text: String) {
+    fun searchInfo(text: String, searchType: SearchType) {
         if (text.length >= MIN_CHARACTERS) {
             _toggleLoaderVisibility.value = true
             viewModelScope.launch {
                 val result = withContext(ioDispatcher) {
-                    getArtistInfoUseCase.execute(text)
+                    when (searchType) {
+                        SearchType.ARTIST -> getArtistInfoUseCase.execute(text)
+                        SearchType.ALBUM -> getAlbumInfoUseCase.execute(text)
+                    }
                 }
-                onArtistInfoReceived(result)
+                onInfoReceived(result)
             }
         }
     }
 
-    private fun onArtistInfoReceived(result: Result<List<Artist>>) {
+    private fun onInfoReceived(result: Result<List<SearchItem>>) {
         _toggleLoaderVisibility.value = false
         if (result is Result.Success) {
-            _artistList.value = result.value
+            _searchItemList.value = result.value
         } else {
             _errorLayoutVisibility.value = true
         }

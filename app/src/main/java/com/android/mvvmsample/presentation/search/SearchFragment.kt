@@ -1,6 +1,7 @@
 package com.android.mvvmsample.presentation.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,24 +26,31 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 class SearchFragment : DaggerFragment() {
 
+    companion object {
+        const val SEARCH_TYPE_ARG = "searchTypeArg"
+    }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val searchViewModel: SearchViewModel by viewModels { viewModelFactory }
 
     private lateinit var searchListAdapter: SearchListAdapter
+    private var searchType: SearchType? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_search, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        searchType = arguments?.getSerializable(SEARCH_TYPE_ARG) as SearchType?
+
         initObservables()
         initViews()
     }
 
     private fun initObservables() {
-        searchViewModel.artistList.observe(requireActivity(), Observer { artists ->
-            searchListAdapter.submitList(artists)
+        searchViewModel.searchItemList.observe(requireActivity(), Observer { searchItems ->
+            searchListAdapter.submitList(searchItems)
         })
 
         searchViewModel.errorLayoutVisibility.observe(requireActivity(), Observer {
@@ -66,18 +74,24 @@ class SearchFragment : DaggerFragment() {
     }
 
     private fun initList() {
-        searchListAdapter = SearchListAdapter()
-        with(searchRv) {
-            layoutManager = LinearLayoutManager(activity)
-            setHasFixedSize(true)
-            adapter = searchListAdapter
+        searchType?.let { searchType ->
+            searchListAdapter = SearchListAdapter(searchType)
+            with(searchRv) {
+                layoutManager = LinearLayoutManager(activity)
+                setHasFixedSize(true)
+                adapter = searchListAdapter
+            }
         }
     }
 
     private fun addSearchEditTextListener() {
-        searchEt.onTextChangeDebounced()
-            .filterNot { it.isNullOrBlank() }
-            .onEach { searchViewModel.searchInfo(it.toString()) }
-            .launchIn(lifecycleScope)
+        searchType?.let { searchType ->
+            searchEt.onTextChangeDebounced()
+                .filterNot { it.isNullOrBlank() }
+                .onEach {
+                    searchViewModel.searchInfo(it.toString(), searchType)
+                }
+                .launchIn(lifecycleScope)
+        }
     }
 }

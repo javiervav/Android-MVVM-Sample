@@ -2,15 +2,14 @@ package com.android.data.repository
 
 import com.android.data.remote.MusicApi
 import com.android.domain.Result
-import com.android.domain.models.Album
-import com.android.domain.models.Artist
+import com.android.domain.models.SearchItem
 import com.android.domain.repositories.MusicRepositoryContract
 
 class MusicRepository(
     private val musicApi: MusicApi
 ) : MusicRepositoryContract {
 
-    override fun getArtistList(accessToken: String, text: String): Result<List<Artist>> {
+    override fun getArtistList(accessToken: String, text: String): Result<List<SearchItem.Artist>> {
         val queryParams = getArtistListQueryParams(text)
         val response = musicApi.getArtistList(queryParams, "Bearer $accessToken").execute()
         return if (response.isSuccessful) {
@@ -25,17 +24,18 @@ class MusicRepository(
         }
     }
 
-    override fun getAlbumList(accessToken: String, text: String): List<Album> {
+    override fun getAlbumList(accessToken: String, text: String): Result<List<SearchItem.Album>> {
         val queryParams = getAlbumListQueryParams(text)
         val response = musicApi.getAlbumList(queryParams, "Bearer $accessToken").execute()
         return if (response.isSuccessful) {
             // This endpoint returns albums released by bands with "text" in its name, but not in album's name.
             // That's why filter is added.
-            response.body()?.albums?.items
+            val albumList = response.body()?.albums?.items
                 ?.filter { it.name.contains(text, true) }
                 ?.map { it.toDomainAlbum() }.orEmpty().take(MAX_ALBUMS_RETURN_VALUES)
+            Result.Success(albumList)
         } else {
-            emptyList()
+            Result.Failure
         }
     }
 

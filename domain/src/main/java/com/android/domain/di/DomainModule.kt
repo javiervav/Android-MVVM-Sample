@@ -2,6 +2,7 @@ package com.android.domain.di
 
 import com.android.domain.repositories.AuthRepositoryContract
 import com.android.domain.repositories.MusicRepositoryContract
+import com.android.domain.usecases.GetAlbumInfoUseCase
 import com.android.domain.usecases.GetArtistInfoUseCase
 import dagger.Module
 import dagger.Provides
@@ -16,4 +17,11 @@ class DomainModule {
         authRepository: AuthRepositoryContract,
         musicRepository: MusicRepositoryContract
     ): GetArtistInfoUseCase = GetArtistInfoUseCase(authRepository, musicRepository)
+
+    @Singleton
+    @Provides
+    fun providesGetAlbumInfoUseCase(
+        authRepository: AuthRepositoryContract,
+        musicRepository: MusicRepositoryContract
+    ): GetAlbumInfoUseCase = GetAlbumInfoUseCase(authRepository, musicRepository)
 }
