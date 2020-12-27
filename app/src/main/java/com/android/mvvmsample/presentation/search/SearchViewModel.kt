@@ -24,8 +24,8 @@ class SearchViewModel @Inject constructor(
         private const val MIN_CHARACTERS = 3
     }
 
-    private val _toggleLoaderVisibility = MutableLiveData<Boolean>()
-    val toggleLoaderVisibility: LiveData<Boolean> = _toggleLoaderVisibility
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
     private val _errorLayoutVisibility = MutableLiveData<Boolean>()
     val errorLayoutVisibility: LiveData<Boolean> = _errorLayoutVisibility
     private val _searchItemList = MutableLiveData<List<SearchItem>>()
@@ -33,7 +33,7 @@ class SearchViewModel @Inject constructor(
 
     fun searchInfo(text: String, searchType: SearchType) {
         if (text.length >= MIN_CHARACTERS) {
-            _toggleLoaderVisibility.value = true
+            _isLoading.value = true
             viewModelScope.launch {
                 val result = withContext(ioDispatcher) {
                     when (searchType) {
@@ -47,7 +47,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onInfoReceived(result: Result<List<SearchItem>>) {
-        _toggleLoaderVisibility.value = false
+        _isLoading.value = false
         if (result is Result.Success) {
             _searchItemList.value = result.value
         } else {

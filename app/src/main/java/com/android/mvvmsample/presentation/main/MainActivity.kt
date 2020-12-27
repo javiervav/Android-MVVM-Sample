@@ -21,9 +21,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDataBinding() {
-        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.viewModel = ViewModelProvider(this).get()
-        binding.lifecycleOwner = this
+        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main).apply {
+            viewModel = ViewModelProvider(this@MainActivity).get()
+            lifecycleOwner = this@MainActivity
+        }
     }
 
     private fun initViews() {

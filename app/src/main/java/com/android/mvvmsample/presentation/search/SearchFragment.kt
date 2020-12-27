@@ -1,17 +1,16 @@
 package com.android.mvvmsample.presentation.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.mvvmsample.R
+import com.android.mvvmsample.databinding.FragmentSearchBinding
 import com.android.mvvmsample.utils.extensions.onTextChangeDebounced
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -37,35 +36,18 @@ class SearchFragment : DaggerFragment() {
     private lateinit var searchListAdapter: SearchListAdapter
     private var searchType: SearchType? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_search, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+        DataBindingUtil.inflate<FragmentSearchBinding>(inflater, R.layout.fragment_search, container, false)
+            .apply {
+                viewModel = searchViewModel
+                lifecycleOwner = viewLifecycleOwner
+            }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         searchType = arguments?.getSerializable(SEARCH_TYPE_ARG) as SearchType?
 
-        initObservables()
         initViews()
-    }
-
-    private fun initObservables() {
-        searchViewModel.searchItemList.observe(requireActivity(), Observer { searchItems ->
-            searchListAdapter.submitList(searchItems)
-        })
-
-        searchViewModel.errorLayoutVisibility.observe(requireActivity(), Observer {
-            Toast.makeText(activity, "ERROR", Toast.LENGTH_SHORT).show()
-        })
-
-        searchViewModel.toggleLoaderVisibility.observe(requireActivity(), Observer { visible ->
-            if (visible) {
-                searchPlaceholderLayout.visibility = View.VISIBLE
-                searchRv.visibility = View.GONE
-            } else {
-                searchRv.visibility = View.VISIBLE
-                searchPlaceholderLayout.visibility = View.GONE
-            }
-        })
     }
 
     private fun initViews() {

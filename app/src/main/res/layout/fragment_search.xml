@@ -1,47 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/default_horizontal_margin"
-    android:paddingTop="@dimen/default_vertical_margin">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <EditText
-        android:id="@+id/searchEt"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/small_button_height"
-        android:background="@drawable/background_search_field"
-        android:hint="@string/search_field_hint"
-        android:importantForAutofill="no"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.android.mvvmsample.presentation.search.SearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:paddingHorizontal="@dimen/default_horizontal_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TextFields" />
+        android:paddingTop="@dimen/default_vertical_margin">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/searchPlaceholderLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_vertical_margin"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/searchEt">
+        <EditText
+            android:id="@+id/searchEt"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/small_button_height"
+            android:background="@drawable/background_search_field"
+            android:hint="@string/search_field_hint"
+            android:importantForAutofill="no"
+            android:paddingHorizontal="@dimen/default_horizontal_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextFields" />
 
-        <include layout="@layout/layout_search_placeholder" />
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/searchPlaceholderLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_vertical_margin"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/searchEt"
+            app:visibility="@{ viewModel.isLoading }">
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
+            <include layout="@layout/layout_search_placeholder" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchRv"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/default_vertical_margin"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/double_vertical_margin"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchEt"
-        tools:visibility="visible" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchRv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/default_vertical_margin"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/double_vertical_margin"
+            android:visibility="gone"
+            app:items="@{ viewModel.searchItemList }"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchEt"
+            app:visibility="@{ !viewModel.isLoading &amp;&amp; !viewModel.errorLayoutVisibility }"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/errorTv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:padding="@dimen/default_horizontal_margin"
+            android:text="@string/search_error"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchEt"
+            app:visibility="@{ viewModel.errorLayoutVisibility }" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
