@@ -50,6 +50,7 @@ class SearchViewModel @Inject constructor(
         _isLoading.value = false
         if (result is Result.Success) {
             _searchItemList.value = result.value
+            _errorLayoutVisibility.value = false
         } else {
             _errorLayoutVisibility.value = true
         }

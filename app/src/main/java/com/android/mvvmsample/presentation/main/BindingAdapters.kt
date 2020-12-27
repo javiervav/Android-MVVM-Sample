@@ -30,6 +30,7 @@ fun FragmentContainerView.setContent(searchType: SearchType?) {
 
 @BindingAdapter("searchOptionSelected")
 fun BottomNavigationView.setSearchOptionSelected(isSelected: Boolean? = false) {
-    menu.findItem(R.id.searchBottomSheetDialog).isChecked = isSelected == true
-    menu.findItem(R.id.homeFragment).isChecked = isSelected == true
+    if (isSelected == true) {
+        menu.findItem(R.id.searchBottomSheetDialog).isChecked = true
+    }
 }
