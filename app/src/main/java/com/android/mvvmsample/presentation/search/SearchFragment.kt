@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.mvvmsample.R
 import com.android.mvvmsample.databinding.FragmentSearchBinding
 import com.android.mvvmsample.utils.extensions.onTextChangeDebounced
 import dagger.android.support.DaggerFragment
@@ -37,11 +35,10 @@ class SearchFragment : DaggerFragment() {
     private var searchType: SearchType? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        DataBindingUtil.inflate<FragmentSearchBinding>(inflater, R.layout.fragment_search, container, false)
-            .apply {
-                viewModel = searchViewModel
-                lifecycleOwner = viewLifecycleOwner
-            }.root
+        FragmentSearchBinding.inflate(inflater, container, false).apply {
+            viewModel = searchViewModel
+            lifecycleOwner = viewLifecycleOwner
+        }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

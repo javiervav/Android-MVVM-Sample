@@ -2,7 +2,6 @@ package com.android.mvvmsample.presentation.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
@@ -21,10 +20,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDataBinding() {
-        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main).apply {
+        val binding = ActivityMainBinding.inflate(layoutInflater).apply {
             viewModel = ViewModelProvider(this@MainActivity).get()
             lifecycleOwner = this@MainActivity
         }
+        setContentView(binding.root)
     }
 
     private fun initViews() {
