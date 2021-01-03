@@ -8,15 +8,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.domain.models.SearchItem
 import com.android.mvvmsample.R
+import com.android.mvvmsample.shared.networkImageLoader.NetworkImageLoader
 import com.android.mvvmsample.utils.thumbnailUrl
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.layout_item_artist_search.view.*
 
 
 class SearchListAdapter(
-    private val searchType: SearchType
+    private val searchType: SearchType,
+    private val networkImageLoader: NetworkImageLoader
 ) : ListAdapter<SearchItem, SearchListAdapter.SearchListViewHolder>(SearchListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchListViewHolder {
@@ -25,42 +24,26 @@ class SearchListAdapter(
     }
 
     override fun onBindViewHolder(holder: SearchListViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), networkImageLoader)
     }
 
     abstract class SearchListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val roundedCornerRadius =
-            itemView.context.resources.getDimensionPixelSize(R.dimen.default_corner_radius)
-
-        abstract fun bind(searchItem: SearchItem)
-
-        fun setImage(imageUrl: String?) {
-            Glide.with(itemView.context)
-                .load(imageUrl)
-                .thumbnail(getThumbnail())
-                .transform(CenterCrop(), RoundedCorners(roundedCornerRadius))
-                .into(itemView.searchItemImage)
-        }
-
-        private fun getThumbnail() =
-            Glide.with(itemView.context)
-                .load(thumbnailUrl)
-                .transform(CenterCrop(), RoundedCorners(roundedCornerRadius))
+        abstract fun bind(searchItem: SearchItem, networkImageLoader: NetworkImageLoader)
     }
 
     class ArtistListViewHolder(itemView: View) : SearchListViewHolder(itemView) {
-        override fun bind(searchItem: SearchItem) {
+        override fun bind(searchItem: SearchItem, networkImageLoader: NetworkImageLoader) {
             val artist = searchItem as SearchItem.Artist
-            setImage(artist.imageUrl)
+            networkImageLoader.loadImageUrl(artist.imageUrl, thumbnailUrl, itemView.searchItemImage)
             itemView.searchItemTitle.text = artist.name
             itemView.searchItemText.text = artist.genres?.joinToString()
         }
     }
 
     class AlbumListViewHolder(itemView: View) : SearchListViewHolder(itemView) {
-        override fun bind(searchItem: SearchItem) {
+        override fun bind(searchItem: SearchItem, networkImageLoader: NetworkImageLoader) {
             val album = searchItem as SearchItem.Album
-            setImage(album.imageUrl)
+            networkImageLoader.loadImageUrl(album.imageUrl, thumbnailUrl, itemView.searchItemImage)
             itemView.searchItemTitle.text = album.name
             itemView.searchItemText.text = album.artist
         }

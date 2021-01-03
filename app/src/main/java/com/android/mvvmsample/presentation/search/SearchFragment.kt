@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.mvvmsample.databinding.FragmentSearchBinding
+import com.android.mvvmsample.shared.networkImageLoader.NetworkImageLoader
 import com.android.mvvmsample.utils.extensions.onTextChangeDebounced
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -29,6 +30,9 @@ class SearchFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var networkImageLoader: NetworkImageLoader
+
     private val searchViewModel: SearchViewModel by viewModels { viewModelFactory }
 
     private lateinit var searchListAdapter: SearchListAdapter
@@ -54,7 +58,7 @@ class SearchFragment : DaggerFragment() {
 
     private fun initList() {
         searchType?.let { searchType ->
-            searchListAdapter = SearchListAdapter(searchType)
+            searchListAdapter = SearchListAdapter(searchType, networkImageLoader)
             with(searchRv) {
                 layoutManager = LinearLayoutManager(activity)
                 setHasFixedSize(true)

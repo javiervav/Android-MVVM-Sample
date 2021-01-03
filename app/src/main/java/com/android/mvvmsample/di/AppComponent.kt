@@ -1,6 +1,7 @@
 package com.android.mvvmsample.di
 
 import android.app.Application
+import android.content.Context
 import com.android.data.di.DataModule
 import com.android.domain.di.DomainModule
 import com.android.mvvmsample.MainApplication
@@ -13,11 +14,13 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidInjectionModule::class,
+        AppModule::class,
         DispatchersModule::class,
         ViewModelFactoryModule::class,
         ViewModelsModule::class,
         ActivitiesModule::class,
         FragmentsModule::class,
+        SharedModule::class,
         DomainModule::class,
         DataModule::class // TODO: This is forcing me to add a dependency to data, which is not good!
     ]

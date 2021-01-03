@@ -1,7 +1,7 @@
 package com.android.mvvmsample.di
 
+import android.app.Application
 import android.content.Context
-import com.android.mvvmsample.MainApplication
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,5 +11,5 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideContext(mainApplication: MainApplication): Context = mainApplication
+    fun provideContext(application: Application): Context = application
 }
