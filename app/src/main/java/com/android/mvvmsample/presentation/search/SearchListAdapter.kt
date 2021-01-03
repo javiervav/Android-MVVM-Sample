@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.domain.models.SearchItem
 import com.android.mvvmsample.R
+import com.android.mvvmsample.utils.thumbnailUrl
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -28,17 +29,29 @@ class SearchListAdapter(
     }
 
     abstract class SearchListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val roundedCornerRadius = itemView.context.resources.getDimensionPixelSize(R.dimen.default_corner_radius)
+        private val roundedCornerRadius =
+            itemView.context.resources.getDimensionPixelSize(R.dimen.default_corner_radius)
+
         abstract fun bind(searchItem: SearchItem)
+
+        fun setImage(imageUrl: String?) {
+            Glide.with(itemView.context)
+                .load(imageUrl)
+                .thumbnail(getThumbnail())
+                .transform(CenterCrop(), RoundedCorners(roundedCornerRadius))
+                .into(itemView.searchItemImage)
+        }
+
+        private fun getThumbnail() =
+            Glide.with(itemView.context)
+                .load(thumbnailUrl)
+                .transform(CenterCrop(), RoundedCorners(roundedCornerRadius))
     }
 
     class ArtistListViewHolder(itemView: View) : SearchListViewHolder(itemView) {
         override fun bind(searchItem: SearchItem) {
             val artist = searchItem as SearchItem.Artist
-            Glide.with(itemView.context)
-                .load(artist.imageUrl)
-                .transform(CenterCrop(), RoundedCorners(roundedCornerRadius))
-                .into(itemView.searchItemImage)
+            setImage(artist.imageUrl)
             itemView.searchItemTitle.text = artist.name
             itemView.searchItemText.text = artist.genres?.joinToString()
         }
@@ -47,10 +60,7 @@ class SearchListAdapter(
     class AlbumListViewHolder(itemView: View) : SearchListViewHolder(itemView) {
         override fun bind(searchItem: SearchItem) {
             val album = searchItem as SearchItem.Album
-            Glide.with(itemView.context)
-                .load(album.imageUrl)
-                .transform(CenterCrop(), RoundedCorners(roundedCornerRadius))
-                .into(itemView.searchItemImage)
+            setImage(album.imageUrl)
             itemView.searchItemTitle.text = album.name
             itemView.searchItemText.text = album.artist
         }
