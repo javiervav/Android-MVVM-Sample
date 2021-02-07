@@ -1,16 +1,13 @@
 package com.android.mvvmsample.presentation.search
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.domain.models.SearchItem
-import com.android.mvvmsample.R
+import com.android.mvvmsample.databinding.LayoutItemArtistSearchBinding
 import com.android.mvvmsample.shared.networkImageLoader.NetworkImageLoader
-import com.android.mvvmsample.utils.thumbnailUrl
-import kotlinx.android.synthetic.main.layout_item_artist_search.view.*
 
 
 class SearchListAdapter(
@@ -19,7 +16,7 @@ class SearchListAdapter(
 ) : ListAdapter<SearchItem, SearchListAdapter.SearchListViewHolder>(SearchListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchListViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.layout_item_artist_search, parent, false)
+        val itemView = LayoutItemArtistSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchItemFactory.createViewHolder(searchType, itemView)
     }
 
@@ -27,25 +24,26 @@ class SearchListAdapter(
         holder.bind(getItem(position), networkImageLoader)
     }
 
-    abstract class SearchListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    abstract class SearchListViewHolder(binding: LayoutItemArtistSearchBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         abstract fun bind(searchItem: SearchItem, networkImageLoader: NetworkImageLoader)
     }
 
-    class ArtistListViewHolder(itemView: View) : SearchListViewHolder(itemView) {
+    class ArtistListViewHolder(private val binding: LayoutItemArtistSearchBinding) : SearchListViewHolder(binding) {
         override fun bind(searchItem: SearchItem, networkImageLoader: NetworkImageLoader) {
             val artist = searchItem as SearchItem.Artist
-            networkImageLoader.loadImageUrl(artist.imageUrl, thumbnailUrl, itemView.searchItemImage)
-            itemView.searchItemTitle.text = artist.name
-            itemView.searchItemText.text = artist.genres?.joinToString()
+            binding.searchType = SearchType.ARTIST
+            binding.artist = artist
+            binding.networkImageLoader = networkImageLoader
         }
     }
 
-    class AlbumListViewHolder(itemView: View) : SearchListViewHolder(itemView) {
+    class AlbumListViewHolder(private val binding: LayoutItemArtistSearchBinding) : SearchListViewHolder(binding) {
         override fun bind(searchItem: SearchItem, networkImageLoader: NetworkImageLoader) {
             val album = searchItem as SearchItem.Album
-            networkImageLoader.loadImageUrl(album.imageUrl, thumbnailUrl, itemView.searchItemImage)
-            itemView.searchItemTitle.text = album.name
-            itemView.searchItemText.text = album.artist
+            binding.searchType = SearchType.ALBUM
+            binding.album = album
+            binding.networkImageLoader = networkImageLoader
         }
     }
 }
@@ -59,10 +57,13 @@ class SearchListDiffCallback : DiffUtil.ItemCallback<SearchItem>() {
 }
 
 object SearchItemFactory {
-    fun createViewHolder(searchType: SearchType, itemView: View): SearchListAdapter.SearchListViewHolder {
+    fun createViewHolder(
+        searchType: SearchType,
+        binding: LayoutItemArtistSearchBinding
+    ): SearchListAdapter.SearchListViewHolder {
         return when (searchType) {
-            SearchType.ARTIST -> SearchListAdapter.ArtistListViewHolder(itemView)
-            SearchType.ALBUM -> SearchListAdapter.AlbumListViewHolder(itemView)
+            SearchType.ARTIST -> SearchListAdapter.ArtistListViewHolder(binding)
+            SearchType.ALBUM -> SearchListAdapter.AlbumListViewHolder(binding)
         }
     }
 }

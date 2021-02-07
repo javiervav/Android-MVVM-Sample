@@ -1,46 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingVertical="@dimen/half_vertical_margin">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/searchItemImage"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="@dimen/default_horizontal_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/searchItemTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+    <data>
 
-    <TextView
-        android:id="@+id/searchItemTitle"
-        style="@style/TextMedium"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/searchItemText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/searchItemImage"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Artist name" />
+        <import type="com.android.mvvmsample.presentation.search.SearchType" />
 
-    <TextView
-        android:id="@+id/searchItemText"
-        android:layout_width="0dp"
+        <variable
+            name="networkImageLoader"
+            type="com.android.mvvmsample.shared.networkImageLoader.NetworkImageLoader" />
+
+        <variable
+            name="searchType"
+            type="com.android.mvvmsample.presentation.search.SearchType" />
+
+        <variable
+            name="artist"
+            type="com.android.domain.models.SearchItem.Artist" />
+
+        <variable
+            name="album"
+            type="com.android.domain.models.SearchItem.Album" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/searchItemTitle"
-        app:layout_constraintTop_toBottomOf="@id/searchItemTitle"
-        tools:text="5 followers" />
+        android:paddingVertical="@dimen/half_vertical_margin">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/searchItemImage"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="@dimen/default_horizontal_margin"
+            app:imageUrl="@{searchType == SearchType.ARTIST ? artist.imageUrl : album.imageUrl}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/searchItemTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:networkImageLoader="@{networkImageLoader}"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/searchItemTitle"
+            style="@style/TextMedium"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{searchType == SearchType.ARTIST ? artist.name : album.name}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/searchItemText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/searchItemImage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Artist name" />
+
+        <TextView
+            android:id="@+id/searchItemText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            app:album="@{album}"
+            app:artist="@{artist}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/searchItemTitle"
+            app:layout_constraintTop_toBottomOf="@id/searchItemTitle"
+            app:searchType="@{searchType}"
+            tools:text="5 followers" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
