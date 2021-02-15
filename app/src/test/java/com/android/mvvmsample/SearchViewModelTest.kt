@@ -1,15 +1,12 @@
 package com.android.mvvmsample
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.android.domain.Result
 import com.android.domain.models.SearchItem
 import com.android.domain.usecases.GetAlbumInfoUseCase
 import com.android.domain.usecases.GetArtistInfoUseCase
 import com.android.mvvmsample.presentation.search.SearchType
 import com.android.mvvmsample.presentation.search.SearchViewModel
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -79,68 +76,44 @@ class SearchViewModelTest {
     @Test
     fun `should load artists if text is longer than three digits`() {
         val searchText = "Queen"
-        val toggleLoaderVisibilityObserver = mock<Observer<Boolean>>()
-        searchViewModel.isLoading.observeForever(toggleLoaderVisibilityObserver)
-        val artistListObserver = mock<Observer<List<SearchItem>>>()
-        searchViewModel.searchItemList.observeForever(artistListObserver)
         whenever(getArtistInfoUseCase.execute(searchText)).thenReturn(Result.Success(artistList))
 
         searchViewModel.searchInfo(searchText, SearchType.ARTIST)
 
-        verify(toggleLoaderVisibilityObserver).onChanged(true)
-        verify(toggleLoaderVisibilityObserver).onChanged(false)
-        verify(artistListObserver).onChanged(artistList)
+        assertEquals(searchViewModel.searchItemList.value, artistList)
         assertEquals(searchViewModel.errorLayoutVisibility.value, false)
     }
 
     @Test
     fun `should load albums if text is longer than three digits`() {
         val searchText = "A night at the opera"
-        val toggleLoaderVisibilityObserver = mock<Observer<Boolean>>()
-        searchViewModel.isLoading.observeForever(toggleLoaderVisibilityObserver)
-        val albumListObserver = mock<Observer<List<SearchItem>>>()
-        searchViewModel.searchItemList.observeForever(albumListObserver)
         whenever(getAlbumInfoUseCase.execute(searchText)).thenReturn(Result.Success(albumList))
 
         searchViewModel.searchInfo(searchText, SearchType.ALBUM)
 
-        verify(toggleLoaderVisibilityObserver).onChanged(true)
-        verify(toggleLoaderVisibilityObserver).onChanged(false)
-        verify(albumListObserver).onChanged(albumList)
+        assertEquals(searchViewModel.searchItemList.value, albumList)
         assertEquals(searchViewModel.errorLayoutVisibility.value, false)
     }
 
     @Test
     fun `should load error if get artists request fails`() {
         val searchText = "Queen"
-        val toggleLoaderVisibilityObserver = mock<Observer<Boolean>>()
-        searchViewModel.isLoading.observeForever(toggleLoaderVisibilityObserver)
-        val toggleErrorLayoutVisibilityObserver = mock<Observer<Boolean>>()
-        searchViewModel.errorLayoutVisibility.observeForever(toggleErrorLayoutVisibilityObserver)
         whenever(getArtistInfoUseCase.execute(searchText)).thenReturn(Result.Failure)
 
         searchViewModel.searchInfo(searchText, SearchType.ARTIST)
 
-        verify(toggleLoaderVisibilityObserver).onChanged(true)
-        verify(toggleLoaderVisibilityObserver).onChanged(false)
         assertNull(searchViewModel.searchItemList.value)
-        verify(toggleErrorLayoutVisibilityObserver).onChanged(true)
+        assertEquals(searchViewModel.errorLayoutVisibility.value, true)
     }
 
     @Test
     fun `should load error if get albums request fails`() {
         val searchText = "A night at the opera"
-        val toggleLoaderVisibilityObserver = mock<Observer<Boolean>>()
-        searchViewModel.isLoading.observeForever(toggleLoaderVisibilityObserver)
-        val toggleErrorLayoutVisibilityObserver = mock<Observer<Boolean>>()
-        searchViewModel.errorLayoutVisibility.observeForever(toggleErrorLayoutVisibilityObserver)
         whenever(getAlbumInfoUseCase.execute(searchText)).thenReturn(Result.Failure)
 
         searchViewModel.searchInfo(searchText, SearchType.ALBUM)
 
-        verify(toggleLoaderVisibilityObserver).onChanged(true)
-        verify(toggleLoaderVisibilityObserver).onChanged(false)
         assertNull(searchViewModel.searchItemList.value)
-        verify(toggleErrorLayoutVisibilityObserver).onChanged(true)
+        assertEquals(searchViewModel.errorLayoutVisibility.value, true)
     }
 }
