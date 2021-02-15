@@ -1,10 +1,10 @@
 package com.android.mvvmsample
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.android.mvvmsample.presentation.main.MainViewModel
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import com.android.mvvmsample.presentation.search.SearchType
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -24,38 +24,63 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `should change options layout visibility when clicking search button and is hidden`() {
-        val observer = mock<Observer<Boolean>>()
-        mainViewModel.searchOptionsLayoutVisibility.observeForever(observer)
+    fun `should show search options layout when clicking search button and is hidden`() {
+        assertNull(mainViewModel.searchOptionsLayoutVisibility.value)
 
         mainViewModel.onMenuSearchButtonClick()
 
-        verify(observer).onChanged(true)
+        assertEquals(mainViewModel.searchOptionsLayoutVisibility.value, true)
     }
 
     @Test
-    fun `should select search in navigation bar and hide bottom sheet when clicking artist option`() {
-        val optionsVisibilityObserver = mock<Observer<Boolean>>()
-        mainViewModel.searchOptionsLayoutVisibility.observeForever(optionsVisibilityObserver)
-        val navBarSearchOptionSelectedObserver = mock<Observer<Boolean>>()
-        mainViewModel.navigationBarSearchOptionSelected.observeForever(navBarSearchOptionSelectedObserver)
+    fun `should hide search options layout when clicking search button and is shown`() {
+        mainViewModel.onMenuSearchButtonClick()
+        assertEquals(mainViewModel.searchOptionsLayoutVisibility.value, true)
 
+        mainViewModel.onMenuSearchButtonClick()
+
+        assertEquals(mainViewModel.searchOptionsLayoutVisibility.value, false)
+    }
+
+    @Test
+    fun `should hide search options layout when clicking search artist option`() {
         mainViewModel.onSearchArtistClick()
 
-        verify(optionsVisibilityObserver).onChanged(false)
-        verify(navBarSearchOptionSelectedObserver).onChanged(true)
+        assertEquals(mainViewModel.searchOptionsLayoutVisibility.value, false)
     }
 
     @Test
-    fun `should select search in navigation bar and hide bottom sheet when clicking album option`() {
-        val optionsVisibilityObserver = mock<Observer<Boolean>>()
-        mainViewModel.searchOptionsLayoutVisibility.observeForever(optionsVisibilityObserver)
-        val navBarSearchOptionSelectedObserver = mock<Observer<Boolean>>()
-        mainViewModel.navigationBarSearchOptionSelected.observeForever(navBarSearchOptionSelectedObserver)
+    fun `should select search in bottom navigation bar when clicking artist option`() {
+        mainViewModel.onSearchArtistClick()
 
+        assertEquals(mainViewModel.navigationBarSearchOptionSelected.value, true)
+    }
+
+    @Test
+    fun `should set content type artist when artist option is clicked`() {
+        mainViewModel.onSearchArtistClick()
+
+        assertEquals(mainViewModel.containerViewContentType.value, SearchType.ARTIST)
+    }
+
+    @Test
+    fun `should hide search options layout when clicking search album option`() {
         mainViewModel.onSearchAlbumClick()
 
-        verify(optionsVisibilityObserver).onChanged(false)
-        verify(navBarSearchOptionSelectedObserver).onChanged(true)
+        assertEquals(mainViewModel.searchOptionsLayoutVisibility.value, false)
+    }
+
+    @Test
+    fun `should select search in bottom navigation bar when clicking album option`() {
+        mainViewModel.onSearchAlbumClick()
+
+        assertEquals(mainViewModel.navigationBarSearchOptionSelected.value, true)
+    }
+
+    @Test
+    fun `should set content type artist when album option is clicked`() {
+        mainViewModel.onSearchAlbumClick()
+
+        assertEquals(mainViewModel.containerViewContentType.value, SearchType.ALBUM)
     }
 }
