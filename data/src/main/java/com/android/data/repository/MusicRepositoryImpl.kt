@@ -5,7 +5,7 @@ import com.android.domain.Result
 import com.android.domain.models.SearchItem
 import com.android.domain.repositories.MusicRepositoryContract
 
-class MusicRepository(
+class MusicRepositoryImpl(
     private val musicApi: MusicApi
 ) : MusicRepositoryContract {
 

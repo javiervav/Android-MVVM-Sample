@@ -5,7 +5,7 @@ import com.android.domain.Result
 import com.android.domain.repositories.AuthRepositoryContract
 import java.net.UnknownHostException
 
-class AuthRepository(
+class AuthRepositoryImpl(
     private val authApi: AuthApi
 ) : AuthRepositoryContract {
 

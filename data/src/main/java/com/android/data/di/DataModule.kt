@@ -2,8 +2,8 @@ package com.android.data.di
 
 import com.android.data.remote.AuthApi
 import com.android.data.remote.MusicApi
-import com.android.data.repository.AuthRepository
-import com.android.data.repository.MusicRepository
+import com.android.data.repository.AuthRepositoryImpl
+import com.android.data.repository.MusicRepositoryImpl
 import com.android.domain.repositories.AuthRepositoryContract
 import com.android.domain.repositories.MusicRepositoryContract
 import dagger.Module
@@ -18,11 +18,11 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun providesAuthRepository(): AuthRepositoryContract = AuthRepository(getRetrofitBuilderAuth())
+    fun providesAuthRepository(): AuthRepositoryContract = AuthRepositoryImpl(getRetrofitBuilderAuth())
 
     @Singleton
     @Provides
-    fun providesMusicRepository(): MusicRepositoryContract = MusicRepository(getRetrofitBuilderMusic())
+    fun providesMusicRepository(): MusicRepositoryContract = MusicRepositoryImpl(getRetrofitBuilderMusic())
 
     private fun getRetrofitBuilderAuth() = Retrofit.Builder()
         .baseUrl(AuthApi.getBaseUrl())
