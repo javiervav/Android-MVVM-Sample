@@ -16,7 +16,7 @@ Implemented using Clean Architecture (app, data and domain modules to separate l
 
 - There are two branches: 
   - Without-DataBinding
-  - With-DataBinding: Probably more up-to-date
+  - With-DataBinding: **Probably more up-to-date**
 
 
 ### External libraries
