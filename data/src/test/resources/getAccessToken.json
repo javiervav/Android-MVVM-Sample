@@ -1,0 +1,5 @@
+{
+  "access_token": "mockAccessToken",
+  "token_type": "mockTokenType",
+  "expires_in": "mockExpiresIn"
+}

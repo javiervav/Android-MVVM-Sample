@@ -1,9 +1,9 @@
-package com.android.domain.usecases
+package com.android.domain
 
-import com.android.domain.Result
 import com.android.domain.models.SearchItem
 import com.android.domain.repositories.AuthRepositoryContract
 import com.android.domain.repositories.MusicRepositoryContract
+import com.android.domain.usecases.GetAlbumInfoUseCase
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever

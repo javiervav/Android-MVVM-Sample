@@ -19,7 +19,15 @@ dependencies {
     implementation "com.google.dagger:dagger:${versions.dagger}"
     implementation "com.google.dagger:dagger-android:${versions.dagger}"
     implementation "com.google.dagger:dagger-android-support:${versions.dagger}"
+
+    // Unit test
+    testImplementation "junit:junit:${versions.junit}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.mockitokotlin}"
+
+    // MockWebServer
+    implementation "com.squareup.okhttp3:okhttp:${versions.okhttp}"
+    testImplementation "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
