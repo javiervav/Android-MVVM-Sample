@@ -8,9 +8,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.android.mvvmsample.R
 import com.android.mvvmsample.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDataBinding() {
-        val binding = ActivityMainBinding.inflate(layoutInflater).apply {
+        binding = ActivityMainBinding.inflate(layoutInflater).apply {
             viewModel = ViewModelProvider(this@MainActivity).get()
             lifecycleOwner = this@MainActivity
         }
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.findFragmentById(R.id.mainFragmentContainerView)
             ?.let { navHostFragment ->
                 NavigationUI.setupWithNavController(
-                    mainBottomNavigationView,
+                    binding.mainBottomNavigationView,
                     navHostFragment.findNavController()
                 )
             }

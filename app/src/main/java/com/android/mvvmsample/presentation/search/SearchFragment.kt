@@ -12,7 +12,6 @@ import com.android.mvvmsample.databinding.FragmentSearchBinding
 import com.android.mvvmsample.shared.networkImageLoader.NetworkImageLoader
 import com.android.mvvmsample.utils.extensions.onTextChangeDebounced
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.filterNot
@@ -30,19 +29,22 @@ class SearchFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
     @Inject
     lateinit var networkImageLoader: NetworkImageLoader
 
     private val searchViewModel: SearchViewModel by viewModels { viewModelFactory }
-
+    private lateinit var binding: FragmentSearchBinding
     private lateinit var searchListAdapter: SearchListAdapter
     private var searchType: SearchType? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        FragmentSearchBinding.inflate(inflater, container, false).apply {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
             viewModel = searchViewModel
             lifecycleOwner = viewLifecycleOwner
-        }.root
+        }
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,7 +61,7 @@ class SearchFragment : DaggerFragment() {
     private fun initList() {
         searchType?.let { searchType ->
             searchListAdapter = SearchListAdapter(searchType, networkImageLoader)
-            with(searchRv) {
+            with(binding.searchRv) {
                 layoutManager = LinearLayoutManager(activity)
                 setHasFixedSize(true)
                 adapter = searchListAdapter
@@ -69,7 +71,7 @@ class SearchFragment : DaggerFragment() {
 
     private fun addSearchEditTextListener() {
         searchType?.let { searchType ->
-            searchEt.onTextChangeDebounced()
+            binding.searchEt.onTextChangeDebounced()
                 .filterNot { it.isNullOrBlank() }
                 .onEach {
                     searchViewModel.searchInfo(it.toString(), searchType)
