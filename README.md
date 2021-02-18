@@ -33,7 +33,7 @@ https://madscorecard.withgoogle.com/scorecards/2282186151/
 ### Pending...
 
 - Add CI with GitHub Actions to automate run the code analyzer (add Detekt) and tests
-- Remove all pending synthetics adding view binding.
+- ~~Remove all pending synthetics adding view binding.~~
 - ~~Complete viewmodel's unit testing.~~
 - Add UI testing.
 - ~~Add testing in data and domain layers.~~
