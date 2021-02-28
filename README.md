@@ -3,7 +3,7 @@
 ## Table of contents
 
 1. [Description](#description)
-2. [External libraries](#external-libraries)
+2. [Technical Stack](#technical-stack)
 3. [MAD Scorecard](#mad-scorecard)
 4. [Pending...](#pending)
 
@@ -12,17 +12,20 @@
 
 Application that uses Spotify API to perform artist and album searches.
 
-Implemented using Clean Architecture (app, data and domain modules to separate layers) and MVVM pattern (with LiveData).
-
 - There are two branches: 
   - Without-DataBinding
   - With-DataBinding: **Probably more up-to-date**
 
 
-### External libraries
+### Technical Stack
 
-- Dependency injection: Dagger 2
-- Image library: Glide
+- Kotlin.
+- Coroutines.
+- Architecture: 
+  - Clean Architecture using multiple modules to separate layers (app, data and domain).
+  - MVVM pattern.
+- Dependency injection: [Dagger 2](https://dagger.dev/)
+- Image loading library: [Glide](https://github.com/bumptech/glide)
 
 
 ### MAD Scorecard
