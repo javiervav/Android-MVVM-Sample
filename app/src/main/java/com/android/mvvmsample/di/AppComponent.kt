@@ -1,7 +1,6 @@
 package com.android.mvvmsample.di
 
 import android.app.Application
-import android.content.Context
 import com.android.data.di.DataModule
 import com.android.domain.di.DomainModule
 import com.android.mvvmsample.MainApplication
