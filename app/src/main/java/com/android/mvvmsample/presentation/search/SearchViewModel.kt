@@ -25,7 +25,7 @@ class SearchViewModel @Inject constructor(
         private const val MIN_CHARACTERS = 3
     }
 
-    private lateinit var searchJob: Job
+    private var searchJob: Job? = null
     private lateinit var searchType: SearchType
     private lateinit var text: String
     private var offset: Int = 0
@@ -39,7 +39,7 @@ class SearchViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        searchJob.cancel()
+        searchJob?.cancel()
     }
 
     fun searchInfo(text: String, searchType: SearchType) {
@@ -53,7 +53,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun loadMore() {
-        if (searchJob.isActive) return
+        if (searchJob?.isActive == true) return
         performSearch(DataUpdateType.ADD)
     }
 
@@ -62,7 +62,7 @@ class SearchViewModel @Inject constructor(
             val result = withContext(ioDispatcher) {
                 when (searchType) {
                     SearchType.ARTIST -> getArtistInfoUseCase.execute(text, offset)
-                    SearchType.ALBUM -> getAlbumInfoUseCase.execute(text)
+                    SearchType.ALBUM -> getAlbumInfoUseCase.execute(text, offset)
                 }
             }
             updateList(result, updateType)

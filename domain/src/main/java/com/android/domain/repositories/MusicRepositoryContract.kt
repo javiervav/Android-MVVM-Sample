@@ -7,5 +7,5 @@ interface MusicRepositoryContract {
 
     fun getArtistList(accessToken: String, text: String, offset: Int): Result<List<SearchItem.Artist>>
 
-    fun getAlbumList(accessToken: String, text: String): Result<List<SearchItem.Album>>
+    fun getAlbumList(accessToken: String, text: String, offset: Int): Result<List<SearchItem.Album>>
 }
