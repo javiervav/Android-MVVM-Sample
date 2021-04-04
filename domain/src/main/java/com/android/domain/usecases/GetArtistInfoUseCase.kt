@@ -10,11 +10,11 @@ class GetArtistInfoUseCase(
     private val musicRepository: MusicRepositoryContract
 ) {
 
-    fun execute(text: String): Result<List<SearchItem.Artist>> {
+    fun execute(text: String, offset: Int = 0): Result<List<SearchItem.Artist>> {
         // TODO: Save accessToken in database and when api fails, call it again (Interceptor)
         val accessToken = authRepository.getAccessToken()
         return if (accessToken is Result.Success<String>) {
-            musicRepository.getArtistList(accessToken.value, text)
+            musicRepository.getArtistList(accessToken.value, text, offset)
         } else {
             Result.Failure
         }

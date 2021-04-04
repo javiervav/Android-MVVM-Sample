@@ -10,6 +10,7 @@ import com.android.domain.usecases.GetAlbumInfoUseCase
 import com.android.domain.usecases.GetArtistInfoUseCase
 import com.android.mvvmsample.di.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -24,6 +25,11 @@ class SearchViewModel @Inject constructor(
         private const val MIN_CHARACTERS = 3
     }
 
+    private lateinit var searchJob: Job
+    private lateinit var searchType: SearchType
+    private lateinit var text: String
+    private var offset: Int = 0
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
     private val _errorLayoutVisibility = MutableLiveData<Boolean>()
@@ -31,28 +37,52 @@ class SearchViewModel @Inject constructor(
     private val _searchItemList = MutableLiveData<List<SearchItem>>()
     val searchItemList: LiveData<List<SearchItem>> = _searchItemList
 
+    override fun onCleared() {
+        super.onCleared()
+        searchJob.cancel()
+    }
+
     fun searchInfo(text: String, searchType: SearchType) {
         if (text.length >= MIN_CHARACTERS) {
+            this.searchType = searchType
+            this.text = text
             _isLoading.value = true
-            viewModelScope.launch {
-                val result = withContext(ioDispatcher) {
-                    when (searchType) {
-                        SearchType.ARTIST -> getArtistInfoUseCase.execute(text)
-                        SearchType.ALBUM -> getAlbumInfoUseCase.execute(text)
-                    }
-                }
-                onInfoReceived(result)
-            }
+            offset = 0
+            performSearch(DataUpdateType.REFRESH)
         }
     }
 
-    private fun onInfoReceived(result: Result<List<SearchItem>>) {
+    fun loadMore() {
+        if (searchJob.isActive) return
+        performSearch(DataUpdateType.ADD)
+    }
+
+    private fun performSearch(updateType: DataUpdateType) {
+        searchJob = viewModelScope.launch {
+            val result = withContext(ioDispatcher) {
+                when (searchType) {
+                    SearchType.ARTIST -> getArtistInfoUseCase.execute(text, offset)
+                    SearchType.ALBUM -> getAlbumInfoUseCase.execute(text)
+                }
+            }
+            updateList(result, updateType)
+        }
+    }
+
+    private fun updateList(result: Result<List<SearchItem>>, updateType: DataUpdateType) {
         _isLoading.value = false
         if (result is Result.Success) {
-            _searchItemList.value = result.value
+            offset = if (updateType == DataUpdateType.REFRESH) result.value.size else offset + result.value.size
+            _searchItemList.value =
+                if (updateType == DataUpdateType.REFRESH) result.value
+                else _searchItemList.value?.plus(result.value) ?: result.value
             _errorLayoutVisibility.value = false
         } else {
             _errorLayoutVisibility.value = true
         }
+    }
+
+    enum class DataUpdateType {
+        REFRESH, ADD
     }
 }

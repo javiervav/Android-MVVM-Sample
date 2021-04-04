@@ -5,7 +5,7 @@ import com.android.domain.models.SearchItem
 
 interface MusicRepositoryContract {
 
-    fun getArtistList(accessToken: String, text: String): Result<List<SearchItem.Artist>>
+    fun getArtistList(accessToken: String, text: String, offset: Int): Result<List<SearchItem.Artist>>
 
     fun getAlbumList(accessToken: String, text: String): Result<List<SearchItem.Album>>
 }

@@ -32,7 +32,7 @@ class GetArtistInfoUseCaseTest {
         getArtistInfoUseCase.execute(text)
 
         verify(authRepository, times(1)).getAccessToken()
-        verify(musicRepository, times(1)).getArtistList(accessToken, text)
+        verify(musicRepository, times(1)).getArtistList(accessToken, text, 0)
     }
 
     @Test
@@ -40,7 +40,7 @@ class GetArtistInfoUseCaseTest {
         val text = "mockText"
         val accessToken = "mockAccessToken"
         whenever(authRepository.getAccessToken()).thenReturn(Result.Success(accessToken))
-        whenever(musicRepository.getArtistList(accessToken, text)).thenReturn(Result.Success(givenArtistList()))
+        whenever(musicRepository.getArtistList(accessToken, text, 0)).thenReturn(Result.Success(givenArtistList()))
 
         val result = getArtistInfoUseCase.execute(text)
 

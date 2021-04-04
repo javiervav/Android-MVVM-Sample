@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.mvvmsample.databinding.FragmentSearchBinding
 import com.android.mvvmsample.shared.networkImageLoader.NetworkImageLoader
+import com.android.mvvmsample.utils.extensions.addLoadMoreListener
 import com.android.mvvmsample.utils.extensions.onTextChangeDebounced
 import dagger.android.support.DaggerFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -65,6 +66,9 @@ class SearchFragment : DaggerFragment() {
                 layoutManager = LinearLayoutManager(activity)
                 setHasFixedSize(true)
                 adapter = searchListAdapter
+                addLoadMoreListener {
+                    searchViewModel.loadMore()
+                }
             }
         }
     }
