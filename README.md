@@ -40,7 +40,7 @@ https://madscorecard.withgoogle.com/scorecards/2282186151/
 - ~~Complete viewmodel's unit testing.~~
 - ~~Add UI testing.~~
 - ~~Add testing in data and domain layers.~~
-- Add pagination in search screen.
+- ~~Add pagination in search screen.~~
 - Implement artist detail screen.
 - Implement album detail screen.
 - Manage token refresh.
